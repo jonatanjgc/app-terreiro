@@ -1,0 +1,9 @@
+{
+  "name": "App do Terreiro",
+  "short_name": "Terreiro",
+  "description": "Aplicativo para acompanhamento de Giras e avisos.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f4f4f9",
+  "theme_color": "#2c3e50"
+}
