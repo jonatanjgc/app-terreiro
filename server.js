@@ -7,7 +7,6 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 
-// Pastas com permissão total dentro do projeto
 const dataDir = path.join(__dirname, 'dados_persistentes');
 const uploadDir = path.join(dataDir, 'uploads');
 
@@ -29,14 +28,12 @@ app.use(express.json());
 app.use(express.static('.')); 
 app.use('/uploads', express.static(uploadDir));
 
-// Banco de dados
 const dbPath = path.join(dataDir, 'banco-terreiro.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) console.error("❌ Erro ao conectar ao banco:", err.message);
     else console.log("🗄️ Banco de dados conectado em:", dbPath);
 });
 
-// FUNÇÃO DE BLOQUEIO
 function processarBloqueioAutomatico(usuario) {
     if (!usuario) return 'em dia';
     if (usuario.perfil === 'super_admin' || usuario.perfil === 'sacerdote' || usuario.perfil === 'tesoureiro') return usuario.status_mensalidade; 
@@ -78,24 +75,17 @@ db.serialize(() => {
     db.run(`INSERT OR IGNORE INTO usuarios (nome, cpf, senha, perfil, status_mensalidade, ultimo_mes_pago) VALUES ('Jonatan', '00000000000', '123456', 'super_admin', 'em dia', 12)`);
 });
 
-// FUNÇÃO DE START CORRIGIDA PARA O RENDER "ENXERGAR" O PORTAL
 function startServer() {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando em 0.0.0.0:${PORT}!`));
 }
 
-function enviarNotificacaoParaTodos(titulo, mensagem) { 
-    const payload = JSON.stringify({ titulo, message: mensagem }); 
-    db.all(`SELECT * FROM inscricoes_push`, [], (err, inscricoes) => { 
-        if (err || !inscricoes) return;
-        inscricoes.forEach((i) => {
-            const pushSubscription = { endpoint: i.endpoint, keys: { p256dh: i.p256dh, auth: i.auth } };
-            webpush.sendNotification(pushSubscription, payload).catch(e => { 
-                if(e.statusCode === 410 || e.statusCode === 403 || e.statusCode === 404) db.run(`DELETE FROM inscricoes_push WHERE endpoint = ?`, [i.endpoint]); 
-            });
-        });
-    }); 
-}
+// BOTÃO DE EMERGÊNCIA: Acesse esse link se não conseguir logar
+app.get('/api/force-reset', (req, res) => {
+    db.run(`UPDATE usuarios SET senha = '123456' WHERE cpf = '00000000000'`, () => {
+        res.send("Senha do Admin resetada para 123456. Tente logar novamente!");
+    });
+});
 
 app.get('/api/vapid-public-key', (req, res) => { res.json({ publicKey: vapidKeys.publicKey }); });
 app.get('/api/escala-limpeza', (req, res) => { db.all(`SELECT * FROM escala_limpeza ORDER BY id ASC`, [], (err, rows) => { res.json({ sucesso: true, escala: rows || [] }); }); });
