@@ -15,7 +15,8 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-// Configuração de Uploads (Imagens e PDF)
+// Configuração de Uploads
+if (!fs.existsSync('./uploads')) { fs.mkdirSync('./uploads'); }
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: (req, file, cb) => { cb(null, Date.now() + path.extname(file.originalname)); }
@@ -23,34 +24,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 app.use('/uploads', express.static('uploads'));
 
-// --- ROTAS DO SISTEMA ---
+// --- ROTAS DA API (Sempre coloque as APIs antes de servir o index.html) ---
 
-// Login
 app.post('/api/login', async (req, res) => {
     const { cpf, senha } = req.body;
     try {
         const result = await pool.query("SELECT * FROM usuarios WHERE cpf = $1 AND senha = $2", [cpf, senha]);
-        if (result.rows.length > 0) {
-            res.json({ sucesso: true, ...result.rows[0] });
-        } else {
-            res.json({ sucesso: false, mensagem: "Usuário ou senha inválidos." });
-        }
+        if (result.rows.length > 0) res.json({ sucesso: true, ...result.rows[0] });
+        else res.json({ sucesso: false, mensagem: "Usuário ou senha inválidos." });
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Financeiro (Lista de médiuns)
 app.get('/api/mediuns', async (req, res) => {
     try {
         const configResult = await pool.query("SELECT * FROM configuracoes");
+        const usersResult = await pool.query("SELECT * FROM usuarios");
         const precos = {};
         configResult.rows.forEach(r => precos[r.plano] = r.valor);
-        
-        const usersResult = await pool.query("SELECT * FROM usuarios");
         res.json({ sucesso: true, lista: usersResult.rows, precos: precos });
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Cadastro de usuário
 app.post('/api/cadastrar', async (req, res) => {
     const { nome, cpf, senha, perfil, tipo_vinculo, cpf_titular, vencimento_regra } = req.body;
     try {
@@ -60,7 +54,6 @@ app.post('/api/cadastrar', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Avisos
 app.get('/api/avisos', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM avisos ORDER BY id DESC");
@@ -81,10 +74,11 @@ app.delete('/api/avisos/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Agenda
 app.get('/api/agenda', async (req, res) => {
-    const result = await pool.query("SELECT * FROM agenda");
-    res.json({ agenda: result.rows });
+    try {
+        const result = await pool.query("SELECT * FROM agenda");
+        res.json({ agenda: result.rows });
+    } catch (e) { res.status(500).json({ agenda: [] }); }
 });
 
 app.post('/api/agenda', async (req, res) => {
@@ -98,26 +92,21 @@ app.delete('/api/agenda/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Conteúdos Dinâmicos (Mensagens, Sobre, etc)
 app.get('/api/conteudos/:chave', async (req, res) => {
     const result = await pool.query("SELECT * FROM conteudos WHERE chave = $1", [req.params.chave]);
-    res.json({ conteudo: result.rows[0] });
+    res.json({ conteudo: result.rows[0] || {} });
 });
 
 app.post('/api/conteudos', upload.single('imagem'), async (req, res) => {
     const { chave, titulo, texto } = req.body;
     const imagem = req.file ? req.file.filename : null;
     try {
-        if (imagem) {
-            await pool.query("INSERT INTO conteudos (chave, titulo, texto, imagem) VALUES ($1, $2, $3, $4) ON CONFLICT (chave) DO UPDATE SET titulo=$2, texto=$3, imagem=$4", [chave, titulo, texto, imagem]);
-        } else {
-            await pool.query("INSERT INTO conteudos (chave, titulo, texto) VALUES ($1, $2, $3) ON CONFLICT (chave) DO UPDATE SET titulo=$2, texto=$3", [chave, titulo, texto]);
-        }
+        if (imagem) await pool.query("INSERT INTO conteudos (chave, titulo, texto, imagem) VALUES ($1, $2, $3, $4) ON CONFLICT (chave) DO UPDATE SET titulo=$2, texto=$3, imagem=$4", [chave, titulo, texto, imagem]);
+        else await pool.query("INSERT INTO conteudos (chave, titulo, texto) VALUES ($1, $2, $3) ON CONFLICT (chave) DO UPDATE SET titulo=$2, texto=$3", [chave, titulo, texto]);
         res.json({ sucesso: true });
     } catch (e) { res.status(500).json({ sucesso: false }); }
 });
 
-// Biblioteca
 app.get('/api/biblioteca', async (req, res) => {
     const result = await pool.query("SELECT * FROM biblioteca");
     res.json({ livros: result.rows });
@@ -135,10 +124,11 @@ app.delete('/api/biblioteca/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Escala de Limpeza
 app.get('/api/escala-limpeza', async (req, res) => {
-    const result = await pool.query("SELECT * FROM escala_limpeza");
-    res.json({ escala: result.rows });
+    try {
+        const result = await pool.query("SELECT * FROM escala_limpeza");
+        res.json({ escala: result.rows });
+    } catch (e) { res.json({ escala: [] }); }
 });
 
 app.post('/api/escala-limpeza', async (req, res) => {
@@ -152,7 +142,6 @@ app.delete('/api/escala-limpeza/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Comprovantes
 app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     const { id } = req.body;
     const arquivo = req.file.filename;
@@ -160,27 +149,39 @@ app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Atualizar Status (Tesoureiro)
 app.post('/api/atualizar-status', async (req, res) => {
     const { id, novoStatus } = req.body;
     await pool.query("UPDATE usuarios SET status_mensalidade = $1 WHERE id = $2", [novoStatus, id]);
     res.json({ sucesso: true });
 });
 
-// Inscrição Push
+app.post('/api/atualizar-precos', async (req, res) => {
+    const { individual, casal, familia3, familia4 } = req.body;
+    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('individual', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [individual]);
+    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('casal', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [casal]);
+    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('familia3', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [familia3]);
+    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('familia4', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [familia4]);
+    res.json({ sucesso: true });
+});
+
 app.post('/api/inscrever-push', async (req, res) => {
     const { endpoint, keys } = req.body;
     await pool.query("INSERT INTO inscricoes_push (endpoint, p256dh, auth) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING", [endpoint, keys.p256dh, keys.auth]);
     res.json({ sucesso: true });
 });
 
-// Iniciar Servidor na porta correta para o Render
-const PORT = process.env.PORT || 10000;
-// Servir arquivos estáticos (index.html, css, imagens)
-app.use(express.static(path.join(__dirname, '.')));
+app.get('/api/buscar-titular/:cpf', async (req, res) => {
+    const result = await pool.query("SELECT nome FROM usuarios WHERE cpf = $1", [req.params.cpf]);
+    if (result.rows.length > 0) res.json({ sucesso: true, nome: result.rows[0].nome });
+    else res.json({ sucesso: false });
+});
 
-// Fallback: Qualquer rota que não seja da API, entrega o index.html (essencial para SPAs)
+// --- ROTA DE SERVIR O FRONTEND (Sempre por último) ---
+app.use(express.static('.'));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+// Iniciar servidor na porta do Render
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
