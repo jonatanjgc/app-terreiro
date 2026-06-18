@@ -468,12 +468,13 @@
         
         function abrirPainelAdmin() { 
             irParaTela('tela-admin');
-            if(meuPerfilLogado === 'tesoureiro') { 
+            let perfil = (meuPerfilLogado || "").trim();
+            if(perfil === 'tesoureiro') { 
                 document.getElementById('btn-config-precos').style.display = 'block'; 
             } else { 
                 document.getElementById('btn-config-precos').style.display = 'none'; 
             }
-            if(meuPerfilLogado === 'super_admin' || meuPerfilLogado === 'sacerdote') { document.getElementById('area-super-admin').style.display = 'block'; } 
+            if(perfil === 'super_admin' || perfil === 'sacerdote') { document.getElementById('area-super-admin').style.display = 'block'; } 
             else { document.getElementById('area-super-admin').style.display = 'none'; }
             mudarSubAbaAdmin('sub-mensalidades');
         }
@@ -553,7 +554,8 @@
                         let fHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px;">';
                         album.fotos.forEach(f => { 
                             let bLix = ''; 
-                            if(meuIdLogado == f.autor_id || meuPerfilLogado === 'super_admin' || meuPerfilLogado === 'admin' || meuPerfilLogado === 'tesoureiro' || meuPerfilLogado === 'sacerdote') { 
+                            let perfil = (meuPerfilLogado || "").trim();
+                            if(meuIdLogado == f.autor_id || perfil === 'super_admin' || perfil === 'admin' || perfil === 'tesoureiro' || perfil === 'sacerdote') { 
                                 bLix = `<button style="position:absolute; top:5px; right:5px; background:rgba(231,76,60,0.9); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; z-index:10;" onclick="event.stopPropagation(); apagarRegistro(${f.id})"><i class="fa-solid fa-trash"></i></button>`; 
                             } 
                             fHtml += `<div style="position: relative; border-radius:8px; overflow:hidden; aspect-ratio: 1 / 1; cursor:pointer;" onclick="abrirLightbox('/uploads/${f.arquivo}')"><img src="/uploads/${f.arquivo}" style="width:100%; height:100%; object-fit:cover;">${bLix}</div>`; 
@@ -636,6 +638,7 @@
         }
 
         async function carregarTesourariaReal() { 
+            console.log("Perfil atual para carregar tesouraria:", meuPerfilLogado);
             try { 
                 const res = await fetch(`/api/mediuns?_=${new Date().getTime()}`);
                 const d = await res.json(); 
@@ -660,7 +663,8 @@
                     else if (t.status_mensalidade === 'em analise') analise++; 
                     else if (t.status_mensalidade === 'atrasado') inadimplentes++; 
 
-                    if (meuPerfilLogado === 'tesoureiro') {
+                    let perfil = (meuPerfilLogado || "").trim();
+                    if (perfil === 'tesoureiro') {
                         const estaEmDia = t.status_mensalidade === 'em dia'; 
                         const emAnalise = t.status_mensalidade === 'em analise'; 
                         
@@ -689,7 +693,8 @@
                     }
                 }); 
 
-                if (meuPerfilLogado === 'tesoureiro') { divDetalhes.style.display = 'block'; } else { divDetalhes.style.display = 'none'; }
+                let perfil = (meuPerfilLogado || "").trim();
+                if (perfil === 'tesoureiro') { divDetalhes.style.display = 'block'; } else { divDetalhes.style.display = 'none'; }
 
                 document.getElementById('qtd-pagantes').innerText = pagantes; 
                 document.getElementById('qtd-analise').innerText = analise; 
@@ -750,12 +755,14 @@
         }
 
         function prepararPainelDoMedium(d) {
+            console.log("Meu perfil carregado:", d.perfil);
             meuIdLogado = d.id; meuPerfilLogado = d.perfil; document.getElementById('nome-usuario').innerText = d.nome; 
-            // Mostra o botão de escala para o médio logado
             document.getElementById('btn-menu-escala').style.display = 'flex';
             
             carregarMsgSacerdoteAoVivo(); if(radarDeMensagem) clearInterval(radarDeMensagem); radarDeMensagem = setInterval(carregarMsgSacerdoteAoVivo, 10000);
-            if(d.perfil === 'super_admin' || d.perfil === 'admin' || d.perfil === 'tesoureiro' || d.perfil === 'sacerdote') { 
+            
+            let perfil = (meuPerfilLogado || "").trim();
+            if (perfil === 'super_admin' || perfil === 'admin' || perfil === 'tesoureiro' || perfil === 'sacerdote') { 
                 document.getElementById('btn-admin-geral').style.display = 'block'; document.getElementById('btn-edit-sacerdote').style.display = 'block'; 
             } else { 
                 document.getElementById('btn-admin-geral').style.display = 'none'; document.getElementById('btn-edit-sacerdote').style.display = 'none'; 
@@ -790,7 +797,6 @@
         function fazerLogout() { 
             if(radarDeMensagem) clearInterval(radarDeMensagem); meuIdLogado = null; meuPerfilLogado = null; 
             document.getElementById('input-cpf').value=''; document.getElementById('input-senha').value=''; 
-            // Esconde o botão de escala ao deslogar
             document.getElementById('btn-menu-escala').style.display = 'none';
             localStorage.removeItem('usuario_terreiro'); voltarPrincipal();
         }
@@ -810,7 +816,8 @@
         }
 
         async function mudarStatusFinanceiroReal(id, status) { 
-            if(meuPerfilLogado !== 'tesoureiro') {
+            let perfil = (meuPerfilLogado || "").trim();
+            if(perfil !== 'tesoureiro') {
                 alert('Acesso negado. Operação restrita ao tesoureiro da casa.');
                 return;
             }
@@ -889,7 +896,8 @@
         }
 
         async function salvarPrecos() { 
-            if(meuPerfilLogado !== 'tesoureiro') {
+            let perfil = (meuPerfilLogado || "").trim();
+            if(perfil !== 'tesoureiro') {
                 alert('Acesso negado. Apenas o tesoureiro possui permissão para realizar o reajuste de preços.');
                 return;
             }
@@ -904,7 +912,8 @@
         }
 
         function abrirEdicao(id, nome, cpf) { 
-            if(meuPerfilLogado !== 'tesoureiro') return;
+            let perfil = (meuPerfilLogado || "").trim();
+            if(perfil !== 'tesoureiro') return;
             document.getElementById('edit-id').value=id; document.getElementById('edit-nome').value=nome; document.getElementById('edit-cpf').value=cpf; document.getElementById('edit-senha').value=''; 
             document.getElementById('area-edicao-medium').style.display='block'; window.scrollTo(0,0); 
         }
@@ -923,7 +932,8 @@
         }
 
         async function excluirMedium(id, nome) { 
-            if(meuPerfilLogado !== 'tesoureiro') return;
+            let perfil = (meuPerfilLogado || "").trim();
+            if(perfil !== 'tesoureiro') return;
             if(confirm(`Apagar ${nome}?`)) { await fetch(`/api/excluir-medium/${id}`, { method:'DELETE' }); carregarTesourariaReal(); } 
         }
 
