@@ -191,4 +191,7 @@ cron.schedule('0 9 * * *', () => {
             if(diff === 0) enviarNotificacaoParaTodos('É Hoje!', `Hoje tem Gira de ${gira.titulo} às ${gira.horario}. Traga sua fé!`); 
         }); 
     }); 
-});
+});function startServer() {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}!`));
+}

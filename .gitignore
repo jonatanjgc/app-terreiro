@@ -1,0 +1,4 @@
+node_modules/
+banco-terreiro.sqlite
+*.log
+.env
