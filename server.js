@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 
-// Usamos pastas dentro de __dirname (o diretório do projeto), que sempre têm permissão
+// Pastas com permissão total dentro do projeto
 const dataDir = path.join(__dirname, 'dados_persistentes');
 const uploadDir = path.join(dataDir, 'uploads');
 
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.static('.')); 
 app.use('/uploads', express.static(uploadDir));
 
-// Banco de dados em arquivo local na pasta do projeto
+// Banco de dados
 const dbPath = path.join(dataDir, 'banco-terreiro.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) console.error("❌ Erro ao conectar ao banco:", err.message);
@@ -78,12 +78,25 @@ db.serialize(() => {
     db.run(`INSERT OR IGNORE INTO usuarios (nome, cpf, senha, perfil, status_mensalidade, ultimo_mes_pago) VALUES ('Jonatan', '00000000000', '123456', 'super_admin', 'em dia', 12)`);
 });
 
+// FUNÇÃO DE START CORRIGIDA PARA O RENDER "ENXERGAR" O PORTAL
 function startServer() {
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}!`));
+    app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando em 0.0.0.0:${PORT}!`));
 }
 
-// Rotas da API
+function enviarNotificacaoParaTodos(titulo, mensagem) { 
+    const payload = JSON.stringify({ titulo, message: mensagem }); 
+    db.all(`SELECT * FROM inscricoes_push`, [], (err, inscricoes) => { 
+        if (err || !inscricoes) return;
+        inscricoes.forEach((i) => {
+            const pushSubscription = { endpoint: i.endpoint, keys: { p256dh: i.p256dh, auth: i.auth } };
+            webpush.sendNotification(pushSubscription, payload).catch(e => { 
+                if(e.statusCode === 410 || e.statusCode === 403 || e.statusCode === 404) db.run(`DELETE FROM inscricoes_push WHERE endpoint = ?`, [i.endpoint]); 
+            });
+        });
+    }); 
+}
+
 app.get('/api/vapid-public-key', (req, res) => { res.json({ publicKey: vapidKeys.publicKey }); });
 app.get('/api/escala-limpeza', (req, res) => { db.all(`SELECT * FROM escala_limpeza ORDER BY id ASC`, [], (err, rows) => { res.json({ sucesso: true, escala: rows || [] }); }); });
 app.post('/api/escala-limpeza', (req, res) => { const { data_escala, dia_semana, medium_nome, tarefa } = req.body; db.run(`INSERT INTO escala_limpeza (data_escala, dia_semana, medium_nome, tarefa) VALUES (?, ?, ?, ?)`, [data_escala, dia_semana, medium_nome, tarefa || 'Limpeza Geral'], () => res.json({ sucesso: true })); });
