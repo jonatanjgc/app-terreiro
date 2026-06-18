@@ -9,9 +9,17 @@ const multer = require('multer');
 
 const dataDir = path.join(__dirname, 'dados_persistentes');
 const uploadDir = path.join(dataDir, 'uploads');
+const rootDbPath = path.join(__dirname, 'banco-terreiro.sqlite'); // Arquivo que vem do GitHub
+const persistentDbPath = path.join(dataDir, 'banco-terreiro.sqlite'); // Arquivo onde o app salva
 
 if (!fs.existsSync(dataDir)) { fs.mkdirSync(dataDir, { recursive: true }); }
 if (!fs.existsSync(uploadDir)) { fs.mkdirSync(uploadDir, { recursive: true }); }
+
+// MIGRAÇÃO: Se o banco do GitHub existir e não houver um na pasta de dados, copia!
+if (fs.existsSync(rootDbPath) && !fs.existsSync(persistentDbPath)) {
+    fs.copyFileSync(rootDbPath, persistentDbPath);
+    console.log("📂 Banco de dados migrado com sucesso para a pasta persistente!");
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) { cb(null, uploadDir); },
@@ -28,10 +36,9 @@ app.use(express.json());
 app.use(express.static('.')); 
 app.use('/uploads', express.static(uploadDir));
 
-const dbPath = path.join(dataDir, 'banco-terreiro.sqlite');
-const db = new sqlite3.Database(dbPath, (err) => {
+const db = new sqlite3.Database(persistentDbPath, (err) => {
     if (err) console.error("❌ Erro ao conectar ao banco:", err.message);
-    else console.log("🗄️ Banco de dados conectado em:", dbPath);
+    else console.log("🗄️ Banco de dados conectado em:", persistentDbPath);
 });
 
 function processarBloqueioAutomatico(usuario) {
@@ -80,13 +87,7 @@ function startServer() {
     app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando em 0.0.0.0:${PORT}!`));
 }
 
-// BOTÃO DE EMERGÊNCIA: Acesse esse link se não conseguir logar
-app.get('/api/force-reset', (req, res) => {
-    db.run(`UPDATE usuarios SET senha = '123456' WHERE cpf = '00000000000'`, () => {
-        res.send("Senha do Admin resetada para 123456. Tente logar novamente!");
-    });
-});
-
+app.get('/api/force-reset', (req, res) => { db.run(`UPDATE usuarios SET senha = '123456' WHERE cpf = '00000000000'`, () => { res.send("Senha resetada!"); }); });
 app.get('/api/vapid-public-key', (req, res) => { res.json({ publicKey: vapidKeys.publicKey }); });
 app.get('/api/escala-limpeza', (req, res) => { db.all(`SELECT * FROM escala_limpeza ORDER BY id ASC`, [], (err, rows) => { res.json({ sucesso: true, escala: rows || [] }); }); });
 app.post('/api/escala-limpeza', (req, res) => { const { data_escala, dia_semana, medium_nome, tarefa } = req.body; db.run(`INSERT INTO escala_limpeza (data_escala, dia_semana, medium_nome, tarefa) VALUES (?, ?, ?, ?)`, [data_escala, dia_semana, medium_nome, tarefa || 'Limpeza Geral'], () => res.json({ sucesso: true })); });
