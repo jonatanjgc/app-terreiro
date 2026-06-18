@@ -24,8 +24,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 app.use('/uploads', express.static('uploads'));
 
-// --- ROTAS DA API (Sempre coloque as APIs antes de servir o index.html) ---
+// --- ROTAS DA API ---
 
+// Login
 app.post('/api/login', async (req, res) => {
     const { cpf, senha } = req.body;
     try {
@@ -35,16 +36,20 @@ app.post('/api/login', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
+// Financeiro (Médiuns)
 app.get('/api/mediuns', async (req, res) => {
     try {
         const configResult = await pool.query("SELECT * FROM configuracoes");
         const usersResult = await pool.query("SELECT * FROM usuarios");
         const precos = {};
         configResult.rows.forEach(r => precos[r.plano] = r.valor);
+        
+        // Pega dependentes se houver
         res.json({ sucesso: true, lista: usersResult.rows, precos: precos });
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
+// Cadastro
 app.post('/api/cadastrar', async (req, res) => {
     const { nome, cpf, senha, perfil, tipo_vinculo, cpf_titular, vencimento_regra } = req.body;
     try {
@@ -54,6 +59,7 @@ app.post('/api/cadastrar', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
+// Avisos
 app.get('/api/avisos', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM avisos ORDER BY id DESC");
@@ -74,6 +80,7 @@ app.delete('/api/avisos/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Agenda
 app.get('/api/agenda', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM agenda");
@@ -92,9 +99,12 @@ app.delete('/api/agenda/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Conteúdos Dinâmicos
 app.get('/api/conteudos/:chave', async (req, res) => {
-    const result = await pool.query("SELECT * FROM conteudos WHERE chave = $1", [req.params.chave]);
-    res.json({ conteudo: result.rows[0] || {} });
+    try {
+        const result = await pool.query("SELECT * FROM conteudos WHERE chave = $1", [req.params.chave]);
+        res.json({ conteudo: result.rows[0] || {} });
+    } catch (e) { res.json({ conteudo: {} }); }
 });
 
 app.post('/api/conteudos', upload.single('imagem'), async (req, res) => {
@@ -107,6 +117,7 @@ app.post('/api/conteudos', upload.single('imagem'), async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false }); }
 });
 
+// Biblioteca
 app.get('/api/biblioteca', async (req, res) => {
     const result = await pool.query("SELECT * FROM biblioteca");
     res.json({ livros: result.rows });
@@ -124,6 +135,7 @@ app.delete('/api/biblioteca/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Escala
 app.get('/api/escala-limpeza', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM escala_limpeza");
@@ -142,6 +154,7 @@ app.delete('/api/escala-limpeza/:id', async (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Comprovante
 app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     const { id } = req.body;
     const arquivo = req.file.filename;
@@ -149,39 +162,62 @@ app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Status Financeiro
 app.post('/api/atualizar-status', async (req, res) => {
     const { id, novoStatus } = req.body;
     await pool.query("UPDATE usuarios SET status_mensalidade = $1 WHERE id = $2", [novoStatus, id]);
     res.json({ sucesso: true });
 });
 
+// Preços
 app.post('/api/atualizar-precos', async (req, res) => {
     const { individual, casal, familia3, familia4 } = req.body;
-    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('individual', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [individual]);
-    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('casal', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [casal]);
-    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('familia3', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [familia3]);
-    await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ('familia4', $1) ON CONFLICT (plano) DO UPDATE SET valor = $1", [familia4]);
+    const planos = [['individual', individual], ['casal', casal], ['familia3', familia3], ['familia4', familia4]];
+    for (let p of planos) {
+        await pool.query("INSERT INTO configuracoes (plano, valor) VALUES ($1, $2) ON CONFLICT (plano) DO UPDATE SET valor = $2", p);
+    }
     res.json({ sucesso: true });
 });
 
+// Push
 app.post('/api/inscrever-push', async (req, res) => {
     const { endpoint, keys } = req.body;
     await pool.query("INSERT INTO inscricoes_push (endpoint, p256dh, auth) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING", [endpoint, keys.p256dh, keys.auth]);
     res.json({ sucesso: true });
 });
 
+// Titular
 app.get('/api/buscar-titular/:cpf', async (req, res) => {
     const result = await pool.query("SELECT nome FROM usuarios WHERE cpf = $1", [req.params.cpf]);
     if (result.rows.length > 0) res.json({ sucesso: true, nome: result.rows[0].nome });
     else res.json({ sucesso: false });
 });
 
-// --- ROTA DE SERVIR O FRONTEND (Sempre por último) ---
+// Galeria (Álbum)
+app.get('/api/galeria', async (req, res) => {
+    const result = await pool.query("SELECT * FROM galeria");
+    res.json({ registros: result.rows });
+});
+
+app.post('/api/galeria', upload.array('fotos'), async (req, res) => {
+    const { data_gira, linha, autor_nome, autor_id } = req.body;
+    for (let file of req.files) {
+        await pool.query("INSERT INTO galeria (data_gira, linha, arquivo, autor_nome, autor_id) VALUES ($1, $2, $3, $4, $5)", [data_gira, linha, file.filename, autor_nome, autor_id]);
+    }
+    res.json({ sucesso: true });
+});
+
+app.delete('/api/galeria/:id', async (req, res) => {
+    await pool.query("DELETE FROM galeria WHERE id = $1", [req.params.id]);
+    res.json({ sucesso: true });
+});
+
+// --- ROTA FINAL (Entregar o site) ---
 app.use(express.static('.'));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Iniciar servidor na porta do Render
+// Servidor
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
