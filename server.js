@@ -9,13 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configuração do Banco de Dados Neon (Postgres)
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
 });
 
-// Configuração de Uploads
 if (!fs.existsSync('./uploads')) { fs.mkdirSync('./uploads'); }
 const storage = multer.diskStorage({
     destination: './uploads/',
@@ -26,7 +24,6 @@ app.use('/uploads', express.static('uploads'));
 
 // --- ROTAS DA API ---
 
-// Login
 app.post('/api/login', async (req, res) => {
     const { cpf, senha } = req.body;
     try {
@@ -36,7 +33,6 @@ app.post('/api/login', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Financeiro
 app.get('/api/mediuns', async (req, res) => {
     try {
         const configResult = await pool.query("SELECT * FROM configuracoes");
@@ -47,7 +43,6 @@ app.get('/api/mediuns', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Doações
 app.get('/api/doacoes', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM doacoes ORDER BY id DESC");
@@ -55,15 +50,6 @@ app.get('/api/doacoes', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, lista: [] }); }
 });
 
-app.post('/api/doacoes', async (req, res) => {
-    const { nome, valor } = req.body;
-    try {
-        await pool.query("INSERT INTO doacoes (nome, valor) VALUES ($1, $2)", [nome, valor]);
-        res.json({ sucesso: true });
-    } catch (e) { res.status(500).json({ sucesso: false }); }
-});
-
-// Cadastro
 app.post('/api/cadastrar', async (req, res) => {
     const { nome, cpf, senha, perfil, cpf_titular, vencimento_regra } = req.body;
     const titularId = (cpf_titular && cpf_titular.trim() !== "") ? cpf_titular : null;
@@ -74,7 +60,6 @@ app.post('/api/cadastrar', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false, mensagem: e.message }); }
 });
 
-// Avisos
 app.get('/api/avisos', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM avisos ORDER BY id DESC");
@@ -90,7 +75,6 @@ app.post('/api/avisos', async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false }); }
 });
 
-// Agenda
 app.get('/api/agenda', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM agenda");
@@ -104,7 +88,6 @@ app.post('/api/agenda', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Conteúdos
 app.get('/api/conteudos/:chave', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM conteudos WHERE chave = $1", [req.params.chave]);
@@ -122,7 +105,6 @@ app.post('/api/conteudos', upload.single('imagem'), async (req, res) => {
     } catch (e) { res.status(500).json({ sucesso: false }); }
 });
 
-// Biblioteca
 app.get('/api/biblioteca', async (req, res) => {
     const result = await pool.query("SELECT * FROM biblioteca");
     res.json({ livros: result.rows });
@@ -135,7 +117,6 @@ app.post('/api/biblioteca', upload.single('pdf'), async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Escala Limpeza
 app.get('/api/escala-limpeza', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM escala_limpeza");
@@ -149,7 +130,6 @@ app.post('/api/escala-limpeza', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Comprovantes
 app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     const { id } = req.body;
     const arquivo = req.file.filename;
@@ -157,14 +137,12 @@ app.post('/api/comprovante', upload.single('arquivo'), async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Status Financeiro
 app.post('/api/atualizar-status', async (req, res) => {
     const { id, novoStatus } = req.body;
     await pool.query("UPDATE usuarios SET status_mensalidade = $1 WHERE id = $2", [novoStatus, id]);
     res.json({ sucesso: true });
 });
 
-// Preços
 app.post('/api/atualizar-precos', async (req, res) => {
     const { individual, casal, familia3, familia4 } = req.body;
     const planos = [['individual', individual], ['casal', casal], ['familia3', familia3], ['familia4', familia4]];
@@ -174,7 +152,6 @@ app.post('/api/atualizar-precos', async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Galeria
 app.get('/api/galeria', async (req, res) => {
     const result = await pool.query("SELECT * FROM galeria");
     res.json({ registros: result.rows });
@@ -188,12 +165,10 @@ app.post('/api/galeria', upload.array('fotos'), async (req, res) => {
     res.json({ sucesso: true });
 });
 
-// Rota Final: Servir o Frontend
 app.use(express.static('.'));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Servidor
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
