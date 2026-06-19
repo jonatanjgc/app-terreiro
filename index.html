@@ -9,81 +9,29 @@
     <style>
         :root { --azul-marinho: #0b1c3c; --dourado: #b78f4a; --dourado-claro: #fdfaf3; --fundo-app: #fcfcfc; --cinza-texto: #666666; --fundo-card: #ffffff; --borda-card: #f0f0f0; }
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--fundo-app); color: var(--azul-marinho); padding-bottom: 90px; }
-        
         .cabecalho-perfil { position: relative; background-color: var(--fundo-card); padding-bottom: 25px; text-align: center; border-bottom: 1px solid var(--borda-card); }
         .capa-terreiro { width: 100%; height: 140px; background-color: var(--azul-marinho); overflow: hidden; }
         .area-logo-titulo { position: relative; margin-top: -55px; display: flex; flex-direction: column; align-items: center; }
         .logo-redondo { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--fundo-card); background-color: var(--fundo-card); object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        
         .titulo-linha-1 { font-size: 14px; font-weight: 600; color: var(--dourado); text-transform: uppercase; letter-spacing: 1.5px; margin: 0; }
         .titulo-linha-2 { font-size: 28px; font-weight: 900; color: var(--azul-marinho); margin: 2px 0 0 0; font-family: 'Merriweather', serif; }
-
         .menu-hamburguer { position: absolute; top: 15px; right: 15px; font-size: 24px; cursor: pointer; color: white; background-color: rgba(0, 0, 0, 0.4); padding: 6px 12px; border-radius: 8px; z-index: 100; }
-        .menu-dropdown { display: none; position: absolute; top: 60px; right: 15px; background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; width: 180px; z-index: 99; overflow: hidden; border: 1px solid #eee; }
+        .menu-dropdown { display: none; position: absolute; top: 60px; right: 15px; background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; width: 180px; z-index: 99; overflow: hidden; border: 1px solid #eee; }
         .menu-dropdown button { background: none; border: none; padding: 15px; width: 100%; text-align: left; font-size: 15px; cursor: pointer; color: var(--azul-marinho); font-weight: 600; }
-        
         .conteudo { padding: 20px; box-sizing: border-box; }
-        
         .card-destaque { background-color: var(--dourado-claro); border: 1px solid var(--dourado); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-        .icone-gira { width: 55px; height: 55px; background-color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #e8d0a3; font-size: 24px; color: var(--azul-marinho); }
-        .info-gira h4 { margin: 0; font-size: 11px; color: var(--dourado); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .info-gira h2 { margin: 5px 0; font-size: 18px; color: var(--azul-marinho); font-family: 'Merriweather', serif; }
-        .info-gira p { margin: 0; font-size: 13px; color: var(--cinza-texto); }
-        
         .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
         .btn-menu { background-color: var(--fundo-card); border: 1px solid var(--borda-card); border-radius: 14px; padding: 18px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
-        .btn-menu i { font-size: 24px; color: var(--azul-marinho); }
-        .btn-menu span { font-size: 12px; font-weight: 600; color: var(--azul-marinho); text-align: center; }
-        
-        .card-sobre { background-color: var(--dourado-claro); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--borda-card); }
-        .bloco-aviso { background-color: white; border: 1px solid var(--borda-card); border-radius: 14px; padding: 16px; margin-bottom: 12px; border-left: 5px solid var(--azul-marinho); text-align: left; }
-        .bloco-aviso.urgente { border-left-color: #e74c3c; background-color: #fdf3f2; }
-        
-        .input-campo { width: 100%; padding: 15px; margin-top: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; font-family: inherit; }
-        .botao { background-color: var(--azul-marinho); color: white; border: none; padding: 16px; border-radius: 8px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .botao:disabled { background-color: #95a5a6; cursor: not-allowed; }
-        .botao-voltar { background-color: transparent; border: 1px solid #ccc; padding: 12px; width: 100%; margin-top: 15px; border-radius: 8px; cursor: pointer; color: var(--cinza-texto); font-weight: 500; }
-        .btn-notificacao { background-color: #f1c40f; color: var(--azul-marinho); font-weight: bold; padding: 14px; border-radius: 12px; border: none; width: 100%; margin-bottom: 25px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
-        .botao-rede { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-radius: 12px; text-decoration: none; color: white; font-weight: bold; font-size: 16px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .botao-rede:active { transform: scale(0.98); }
-        .botao-rede.instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .botao-rede.facebook { background-color: #1877F2; }
-        .botao-rede.whatsapp { background-color: #25D366; }
-        .box-rede-icon { font-size: 28px; }
-
-        .premium-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .premium-btn { background: white; border: 1px solid #eee; border-radius: 16px; padding: 18px 5px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.02); cursor: pointer; }
-        .premium-btn i { font-size: 26px; color: var(--azul-marinho); margin-bottom: 8px; }
-        .premium-btn span { display: block; font-size: 12px; color: var(--azul-marinho); font-weight: 600; }
-        
-        .caixa-bloqueio { background-color: #c0392b; color: white; border-radius: 16px; padding: 30px 20px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3); border: 2px solid #a93226; }
-        .caixa-bloqueio i { font-size: 50px; margin-bottom: 15px; color: #f1c40f; }
-        .caixa-bloqueio h3 { margin: 0 0 10px 0; font-family: 'Merriweather', serif; font-size: 22px; }
-        .caixa-bloqueio p { margin: 0; font-size: 15px; line-height: 1.5; }
-
-        .card-mensalidade { background-color: #faf8f5; border-radius: 16px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border: 1px solid #f0eee9; }
-
-        .box-radio { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; text-align: left;}
-        .item-lista-financeiro { background: white; border: 1px solid var(--borda-card); padding: 18px; border-radius: 14px; margin-bottom: 15px; border-left: 5px solid #ccc; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .badge { color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; display: inline-block; margin-top: 5px; }
-        .em-dia { background-color: #27ae60; }
-        .em-analise { background-color: #f39c12; }
-        .atrasado { background-color: #e74c3c; }
-        .btn-pequeno { padding: 8px 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; color: white; }
-        .linha-dependente { padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 14px; display: flex; justify-content: space-between; align-items: center; color: var(--cinza-texto); }
-        .btn-status-toggle { padding: 10px 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; width: 100%; margin-top: 12px; color: white; }
-        
-        .navbar-inferior { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--fundo-card); border-top: 1px solid var(--borda-card); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -3px 12px rgba(0,0,0,0.04); z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #a4b0be; font-size: 11px; cursor: pointer; width: 33%; font-weight: 500; text-align: center; }
+        .input-campo { width: 100%; padding: 15px; margin-top: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        .botao { background-color: var(--azul-marinho); color: white; border: none; padding: 16px; border-radius: 8px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer; }
+        .botao-voltar { background-color: transparent; border: 1px solid #ccc; padding: 12px; width: 100%; margin-top: 15px; border-radius: 8px; cursor: pointer; color: var(--cinza-texto); }
+        .item-lista-financeiro { background: white; border: 1px solid var(--borda-card); padding: 18px; border-radius: 14px; margin-bottom: 15px; border-left: 5px solid #ccc; text-align: left; }
+        .navbar-inferior { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--fundo-card); border-top: 1px solid var(--borda-card); display: flex; justify-content: space-around; padding: 12px 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #a4b0be; font-size: 11px; cursor: pointer; }
         .nav-item.ativo { color: var(--dourado); }
-        .abas-biblioteca { display: flex; gap: 10px; margin-bottom: 20px; }
-        .btn-aba { flex: 1; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer; color: var(--cinza-texto); }
-        .btn-aba.ativa { background: var(--dourado-claro); border-color: var(--dourado); color: var(--azul-marinho); }
     </style>
 </head>
 <body>
-
     <div class="cabecalho-perfil">
         <div class="menu-hamburguer" onclick="toggleMenu()">☰</div>
         <div id="dropdown-menu" class="menu-dropdown"><button onclick="abrirLogin()"><i class="fa-solid fa-key"></i> Área da Corrente</button></div>
@@ -95,989 +43,97 @@
         </div>
     </div>
 
+    <!-- TELA INICIAL -->
     <div id="tela-principal" class="conteudo">
-        <button id="btn-pedir-push" class="btn-notificacao" onclick="solicitarNotificacoes()"><i class="fa-solid fa-bell"></i> Receber Lembretes de Giras</button>
         <div class="card-destaque">
-            <div class="icone-gira"><i class="fa-solid fa-leaf"></i></div>
-            <div class="info-gira"><h4>Próxima Gira</h4><h2 id="titulo-proxima-gira">Buscando...</h2><p id="data-proxima-gira"></p></div>
+            <div class="info-gira"><h4>Próxima Gira</h4><h2 id="titulo-proxima-gira">Carregando...</h2></div>
         </div>
-        
         <div class="grid-menu">
             <div class="btn-menu" onclick="abrirAgenda()"><i class="fa-regular fa-calendar-check"></i><span>Agenda</span></div>
-            <div class="btn-menu" onclick="abrirRegistros()"><i class="fa-solid fa-camera-retro"></i><span>Registros</span></div>
-            <div class="btn-menu" id="btn-menu-escala" style="display:none;" onclick="abrirEscala()"><i class="fa-solid fa-broom"></i><span>Escala</span></div>
-            <div class="btn-menu" onclick="abrirBiblioteca()"><i class="fa-solid fa-book-bookmark"></i><span>Biblioteca</span></div>
-            <div class="btn-menu" onclick="abrirContatoWhatsApp()"><i class="fa-solid fa-phone-volume"></i><span>Contato</span></div>
-            <div class="btn-menu" onclick="abrirTelaDinamica('orientacoes')"><i class="fa-solid fa-book-open"></i><span>Orientações</span></div>
-            <div class="btn-menu" onclick="abrirTelaDinamica('doacoes')"><i class="fa-solid fa-hand-holding-heart"></i><span>Doações</span></div>
-            <div class="btn-menu" onclick="window.open('https://maps.app.goo.gl/JoDsZ433xHE9XCxz5?g_st=iwb', '_blank')"><i class="fa-solid fa-location-dot"></i><span>Localização</span></div>
+            <div class="btn-menu" onclick="abrirBiblioteca()"><i class="fa-solid fa-book-bookmark"></i><span>Biblio</span></div>
         </div>
-
-        <div class="card-sobre" onclick="abrirTelaDinamica('sobre')">
-            <i class="fa-solid fa-house-chimney-heart" style="font-size:30px; color:var(--dourado);"></i>
-            <div><h3 style="margin: 0; font-family:'Merriweather', serif; font-size:18px;">Sobre o Terreiro</h3></div>
-        </div>
-
-        <div class="card-sobre" onclick="abrirTelaDinamica('campanha')" style="margin-bottom: 25px;">
-            <i class="fa-solid fa-bullhorn" style="font-size:30px; color:var(--dourado);"></i>
-            <div><h3 style="margin: 0; font-family:'Merriweather', serif; font-size:18px;">Campanha Vigente</h3></div>
-        </div>
-
-        <h3 style="font-family:'Merriweather', serif; text-align: left;"><i class="fa-regular fa-bell"></i> Mural de Avisos</h3>
-        <div id="lista-avisos-publico"></div>
     </div>
 
-    <div id="tela-escala" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">🧹 Escala de Limpeza</h2>
-        <div id="lista-escala-publica">Carregando...</div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-redes" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">🌐 Nossas Redes</h2>
-        <p style="text-align: left; color: var(--cinza-texto); margin-top: -10px; margin-bottom:25px;">Acompanhe o Sete Corações na internet.</p>
-        <a href="https://www.instagram.com/sete.coracoes" target="_blank" class="botao-rede instagram"><div style="display: flex; align-items: center; gap: 15px;"><i class="fa-brands fa-instagram box-rede-icon"></i><span>Siga no Instagram</span></div><i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i></a>
-        <a href="https://www.facebook.com/centroespiritaumbanda7coracoes" target="_blank" class="botao-rede facebook"><div style="display: flex; align-items: center; gap: 15px;"><i class="fa-brands fa-facebook box-rede-icon"></i><span>Curta no Facebook</span></div><i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i></a>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-contato-whatsapp" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">📞 Entre em Contato</h2>
-        <div style="background-color: white; border: 1px solid var(--borda-card); border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px;">
-            <i class="fa-brands fa-whatsapp" style="font-size: 60px; color: #25D366; margin-bottom: 15px;"></i>
-            <h3 style="margin: 0 0 5px 0; color: var(--azul-marinho);">Atendimento Oficial</h3>
-            <p style="margin: 0 0 20px 0; color: var(--cinza-texto); font-size: 14px;">(53) 99711-7512</p>
-            <a href="https://api.whatsapp.com/send?phone=5553997117512&text=Ol%C3%A1!%20Vim%20pelo%20aplicativo%20do%20Sete%20Cora%C3%A7%C3%B5es." target="_blank" class="botao-rede whatsapp" style="margin-bottom: 0;">
-                <div style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px;"><i class="fa-solid fa-comment-dots"></i><span>Chamar no WhatsApp</span></div>
-            </a>
-        </div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-registros" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">📸 Acervo de Fotos</h2>
-        <div id="lista-registros-publico"></div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-biblioteca" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">📚 Acervo Digital</h2>
-        <div class="abas-biblioteca">
-            <button id="btn-aba-livros" class="btn-aba ativa" onclick="mudarAbaBibliotecaPublica('livro')">📖 Livros</button>
-            <button id="btn-aba-pontos" class="btn-aba" onclick="mudarAbaBibliotecaPublica('ponto')">🎵 Pontos</button>
-        </div>
-        <div id="lista-livros-publico"></div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-agenda" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">Agenda de Trabalhos</h2>
-        <div id="lista-agenda-completa"></div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="tela-dinamica" class="conteudo" style="display: none;">
-        <h2 id="dinamica-titulo" style="font-family:'Merriweather', serif; text-align: left;"></h2>
-        <img id="dinamica-imagem" style="display:none; width:100%; max-height:350px; object-fit:contain; border-radius:12px; margin-bottom:20px; cursor:pointer;" onclick="abrirLightbox(this.src)">
-        <div id="dinamica-texto" style="line-height:1.6; color:var(--cinza-texto); font-size:15px; background:white; padding:20px; border-radius:12px; text-align:left; white-space: pre-wrap;"></div>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
+    <!-- TELA DE LOGIN -->
     <div id="tela-login" class="conteudo" style="display: none;">
         <h2 style="font-family:'Merriweather', serif;">Acesso da Corrente</h2>
         <input type="text" id="input-cpf" class="input-campo" placeholder="CPF">
         <input type="password" id="input-senha" class="input-campo" placeholder="Senha">
         <button class="botao" onclick="fazerLoginReal()">Entrar no Painel</button>
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
+        <button class="botao-voltar" onclick="voltarPrincipal()">Voltar</button>
     </div>
 
-    <div id="tela-medium" class="conteudo" style="display: none; padding-top: 5px;">
-        <p style="text-align: right; color: var(--cinza-texto); font-size: 12px; margin-top: -10px;">Olá, <span id="nome-usuario" style="font-weight: bold; color:var(--azul-marinho);"></span></p>
-
-        <div style="border: 1px solid var(--dourado); border-radius: 16px; padding: 15px; display: flex; gap: 15px; align-items: center; margin-bottom: 25px; background: white; position: relative;">
-            <div style="width: 70px; height: 70px; border-radius: 50%; border: 1px solid var(--dourado); display: flex; align-items: center; justify-content: center; font-size: 35px; color: var(--azul-marinho); flex-shrink: 0; background-color: var(--dourado-claro);"><i class="fa-solid fa-user-tie"></i></div>
-            <div style="text-align: left; flex: 1;"><span style="color: var(--dourado); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Aviso do Sacerdote</span><h3 id="msg-sac-titulo" style="margin: 3px 0; color: var(--azul-marinho); font-family: 'Merriweather', serif; font-size: 16px;">Carregando...</h3><p id="msg-sac-texto" style="margin: 0; font-size: 12px; color: var(--cinza-texto);"></p></div>
-            <button id="btn-edit-sacerdote" style="display:none; position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:18px;" onclick="abrirEdicaoMsgSacerdote()">✏️</button>
-        </div>
-
-        <div id="area-edit-msg-sacerdote" style="display:none; background:#f9f9f9; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:20px; text-align:left;">
-            <h3 style="margin-top:0; color:#d35400;">✍️ Editar Aviso Principal</h3>
-            <input type="text" id="edit-sac-titulo" class="input-campo" placeholder="Título">
-            <textarea id="edit-sac-texto" class="input-campo" style="height:70px;" placeholder="Texto explicativo..."></textarea>
-            <button class="botao" style="background-color: var(--dourado);" onclick="salvarMsgSacerdote()">Salvar Mensagem</button>
-            <button class="botao-voltar" onclick="document.getElementById('area-edit-msg-sacerdote').style.display='none'">Cancelar</button>
-        </div>
-
-        <div id="caixa-inadimplente" class="caixa-bloqueio" style="display: none;">
-            <i class="fa-solid fa-lock"></i>
-            <h3>ACESSO BLOQUEADO</h3>
-            <p>Consta uma pendência financeira automática no seu registo.<br><br><strong>Por favor, anexe o comprovante Pix ou procure a tesouraria para restabelecer os acessos.</strong></p>
-        </div>
-
-        <div class="card-mensalidade">
-            <div style="display: flex; gap: 15px; align-items: center; text-align: left; width: 100%;">
-                <div style="font-size: 35px; color: var(--dourado);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
-                <div style="flex:1;">
-                    <h3 style="margin: 0 0 4px 0; color: var(--azul-marinho); font-family: 'Merriweather', serif; font-size: 16px;">Sua Mensalidade</h3>
-                    <p style="margin: 0; font-size: 13px; color: var(--cinza-texto);">Status: <span id="status-financeiro-painel" style="font-weight: bold; font-size: 14px;">Carregando...</span></p>
-                    <div style="margin-top: 12px;">
-                        <input type="file" id="input-comprovante" style="display:none;" accept="image/*,application/pdf" onchange="enviarComprovante()">
-                        <button class="botao" style="margin-top:0; padding: 8px 12px; font-size:12px; background-color:var(--dourado); width:auto;" onclick="document.getElementById('input-comprovante').click()"><i class="fa-solid fa-upload"></i> Anexar Comprovante</button>
-                        <span id="txt-comprovante" style="font-size:11px; color:var(--cinza-texto); display:block; margin-top:5px;"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="area-recursos-medium">
-            <div class="premium-grid">
-                <div class="premium-btn" onclick="document.getElementById('area-postar-registro').style.display='block'; window.scrollTo(0, document.body.scrollHeight);"><i class="fa-solid fa-camera-retro"></i><span>Criar Álbum</span></div>
-                <div class="premium-btn" onclick="abrirBiblioteca()"><i class="fa-solid fa-book-open"></i><span>Estudos</span></div>
-                <div class="premium-btn" onclick="abrirAgenda()"><i class="fa-regular fa-calendar-check"></i><span>Escalas</span></div>
-            </div>
-            <div id="area-postar-registro" style="display:none; background:#f9f9f9; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:20px; text-align:left;">
-                <h3 style="margin-top:0; color:var(--azul-marinho); font-family:'Merriweather', serif;">📸 Criar Álbum da Gira</h3>
-                <input type="text" id="reg-data" class="input-campo" placeholder="Data">
-                <input type="text" id="reg-linha" class="input-campo" placeholder="Linha">
-                <input type="file" id="reg-fotos" class="input-campo" accept="image/*" multiple style="background: white; padding: 10px;">
-                <button id="btn-publicar-foto" class="botao" style="background-color: var(--dourado);" onclick="salvarRegistro()">Publicar Fotos</button>
-                <button class="botao-voltar" onclick="document.getElementById('area-postar-registro').style.display='none'">Cancelar</button>
-            </div>
-        </div>
-        
-        <div style="display: flex; gap: 10px;">
-            <button id="btn-admin-geral" class="botao" style="display: none; background-color: #27ae60; margin-top: 0; flex:1;" onclick="abrirPainelAdmin()"><i class="fa-solid fa-sliders"></i> Central de Gestão</button>
-            <button class="botao-voltar" style="margin-top: 0; border-color:#e74c3c; color:#e74c3c; flex:1;" onclick="fazerLogout()"> Sair</button>
-        </div>
-    </div>
-
+    <!-- TELA DE ADMIN -->
     <div id="tela-admin" class="conteudo" style="display: none;">
-        <h2 style="font-family:'Merriweather', serif; text-align: left;">⚙ Central de Gestão</h2>
-        <div style="background: #f1f2f6; padding: 6px; border-radius: 10px; margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 5px;">
-            <button onclick="mudarSubAbaAdmin('sub-mensalidades')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">💰 Financeiro</button>
-            <button onclick="mudarSubAbaAdmin('sub-cadastro')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">👤 Cadastro</button>
-            <button onclick="mudarSubAbaAdmin('sub-mural')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">📢 Mural</button>
-            <button onclick="mudarSubAbaAdmin('sub-agenda')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">📅 Giras</button>
-            <button onclick="mudarSubAbaAdmin('sub-biblioteca')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; background-color: #d35400; color:white;">📚 Biblio</button>
-            <button onclick="mudarSubAbaAdmin('sub-escala')" style="flex:1; min-width: 30%; padding:10px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; background-color: #2c3e50; color:white;">🧹 Escala</button>
-        </div>
-
-        <div id="area-edicao-medium" style="display: none; background-color: #fef9e7; padding: 15px; border-radius: 8px; border: 2px solid #f1c40f; margin-bottom: 20px; text-align: left;">
-            <h3 style="margin-top: 0; color: #d35400;">✏ Editando Registo</h3>
-            <input type="hidden" id="edit-id"><input type="text" id="edit-nome" class="input-campo"><input type="text" id="edit-cpf" class="input-campo"><input type="password" id="edit-senha" class="input-campo">
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="botao" style="background-color: #e67e22; margin-top: 0; flex: 1;" onclick="salvarEdicao()">Salvar</button>
-                <button class="botao-voltar" style="margin-top: 0; border-color: #e67e22; color: #e67e22; flex: 1;" onclick="fecharEdicao()">Cancelar</button>
-            </div>
-        </div>
-
-        <div id="sub-mensalidades" class="sub-admin">
-            <div style="display: flex; background: white; padding: 18px; border-radius: 16px; border: 1px solid var(--borda-card); margin-bottom: 20px; align-items: center; gap: 20px;">
-                <div id="grafico-pizza" style="width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(#ccc 0% 100%); flex-shrink: 0; box-shadow: inset 0 0 5px rgba(0,0,0,0.05);"></div>
-                <div style="text-align: left;">
-                    <h4 style="margin: 0 0 8px 0; font-family: 'Merriweather', serif; font-size: 15px;">Métricas da Tesouraria</h4>
-                    <div style="font-size: 13px; color: var(--cinza-texto); display: flex; align-items: center; gap: 8px;"><span style="display:inline-block; width:10px; height:10px; background-color:#27ae60; border-radius:50%;"></span><span>Pagantes: <strong id="qtd-pagantes" style="color:var(--azul-marinho);">0</strong></span></div>
-                    <div style="font-size: 13px; color: var(--cinza-texto); display: flex; align-items: center; gap: 8px; margin-top: 4px;"><span style="display:inline-block; width:10px; height:10px; background-color:#f39c12; border-radius:50%;"></span><span>Em Análise: <strong id="qtd-analise" style="color:var(--azul-marinho);">0</strong></span></div>
-                    <div style="font-size: 13px; color: var(--cinza-texto); display: flex; align-items: center; gap: 8px; margin-top: 4px;"><span style="display:inline-block; width:10px; height:10px; background-color:#e74c3c; border-radius:50%;"></span><span>Inadimplentes: <strong id="qtd-inadimplentes" style="color:var(--azul-marinho);">0</strong></span></div>
-                </div>
-            </div>
-
-            <div id="detalhes-financeiros-tesoureiro" style="display: none;">
-                <button id="btn-config-precos" class="botao" style="background-color:#7f8c8d; margin-top:0; margin-bottom:20px; display:none;" onclick="document.getElementById('area-tabela-precos').style.display='block'">⚙ Ajustar Preços dos Planos</button>
-                <div id="area-tabela-precos" style="display: none; background-color: white; padding: 15px; border-radius: 8px; border:1px solid #ccc; margin-bottom:20px; text-align:left;">
-                    Individual: R$ <input type="number" id="preco-ind" style="width:60px;"><br><br> Casal: R$ <input type="number" id="preco-casal" style="width:60px;"><br><br> Família 3: R$ <input type="number" id="preco-fam3" style="width:60px;"><br><br> Família 4: R$ <input type="number" id="preco-fam4" style="width:60px;"><br><br>
-                    <button class="botao" style="background-color:#27ae60; margin-top:10px;" onclick="salvarPrecos()">Atualizar</button>
-                </div>
-                <h3 style="text-align:left;">Membros Registados</h3>
-                <div id="lista-mediuns-admin">Carregando tesouraria...</div>
-            </div>
-        </div>
-
-        <div id="sub-cadastro" class="sub-admin" style="display:none; text-align:left;">
-            <h3>Cadastrar na Corrente</h3>
-            <input type="text" id="novo-nome" class="input-campo" placeholder="Nome Completo">
-            <input type="text" id="novo-cpf" class="input-campo" placeholder="CPF">
-            <input type="password" id="nova-senha" class="input-campo" placeholder="Senha de Acesso">
-            <div class="box-radio">
-                <strong>Vínculo:</strong><br><br>
-                <label><input type="radio" name="tipoVinculo" value="titular" checked onclick="document.getElementById('box-cpf-titular').style.display='none'; document.getElementById('box-vencimento-regra').style.display='block';"> Titular</label><br><br>
-                <label><input type="radio" name="tipoVinculo" value="dependente" onclick="document.getElementById('box-cpf-titular').style.display='block'; document.getElementById('box-vencimento-regra').style.display='none';"> Dependent Familiar</label>
-            </div>
-            <div id="box-cpf-titular" style="display: none; margin-top: 15px; background: #fef9e7; padding: 12px; border-radius: 8px; border: 1px solid #f1c40f;">
-                <label style="font-weight: bold; color: #d35400;">CPF do Titular Responsável:</label>
-                <input type="text" id="novo-cpf-titular" class="input-campo" oninput="buscarNomeAoVivo()">
-                <div id="aviso-titular-sucesso" style="display: none; color: #27ae60; font-weight: bold;">✅ Vinculando a: <span id="nome-titular-encontrado"></span></div>
-                <div id="aviso-titular-erro" style="display: none; color: #c0392b; font-weight: bold;">❌ CPF Não encontrado.</div>
-            </div>
-            <div id="box-vencimento-regra" class="box-radio" style="margin-top: 15px;">
-                <strong>Regra de Vencimento:</strong><br><br>
-                <label><input type="radio" name="vencimentoRegra" value="5_dia_util" checked> Bloquear após o 5º Dia Útil</label><br><br>
-                <label><input type="radio" name="vencimentoRegra" value="dia_20"> Bloquear após o Dia 20</label>
-            </div>
-            <div id="area-super-admin" style="display: none; margin-top: 15px;">
-                <label style="font-weight: bold; font-size:14px;">Cargo Interno:</label>
-                <select id="novo-perfil" class="input-campo">
-                    <option value="medium">Médium</option>
-                    <option value="sacerdote">Sacerdote</option>
-                    <option value="tesoureiro">Tesoureiro</option>
-                </select>
-            </div>
-            <button class="botao" onclick="fazerCadastroReal()">Salvar Cadastro</button>
-        </div>
-
-        <div id="sub-mural" class="sub-admin" style="display:none; text-align:left;">
-            <div style="background:#fff; border:1px solid #ccc; padding:15px; border-radius:12px; margin-bottom:25px;">
-                <h4 style="margin:0 0 10px 0; color:#d35400;">✍ Textos Institucionais</h4>
-                <select id="select-pagina" class="input-campo" onchange="carregarTextoParaEdicao()">
-                    <option value="">-- Escolher Botão --</option>
-                    <option value="orientacoes">Orientações</option>
-                    <option value="doacoes">Doações</option>
-                    <option value="sobre">Sobre o Terreiro</option>
-                    <option value="campanha">Campanha Vigente</option>
-                </select>
-                <div id="area-edicao-texto" style="display:none; margin-top:10px;">
-                    <input type="text" id="edit-titulo-pagina" class="input-campo">
-                    <textarea id="edit-texto-pagina" class="input-campo" style="height:120px;"></textarea>
-                    
-                    <label style="display:block; margin-top:15px; font-weight:bold; font-size:14px; color:var(--azul-marinho);">Anexar Imagem (Ex: QR Code Pix, Dados Bancários, Arte):</label>
-                    <input type="file" id="edit-imagem-pagina" class="input-campo" accept="image/*" style="background: white; padding: 10px;">
-                    <img id="preview-imagem-pagina" style="display:none; width:120px; height:120px; object-fit:contain; margin-top:10px; border-radius:8px; border:1px solid #ddd; background:#fafafa; padding:5px;">
-                    
-                    <button class="botao" style="background-color:#d35400;" onclick="salvarTextoPagina()">Gravar</button>
-                </div>
-            </div>
-            <h3>📢 Novo Alerta no Mural</h3>
-            <input type="text" id="aviso-titulo" class="input-campo" placeholder="Título">
-            <textarea id="aviso-mensagem" class="input-campo" style="height:100px;"></textarea>
-            <label style="display:block; margin-top:15px; color:#c0392b; font-weight:bold;"><input type="checkbox" id="aviso-urgente" style="transform:scale(1.3); margin-right:5px;"> 🚨 Marcar Alerta Urgente</label>
-            <button class="botao" onclick="salvarAvisoAdmin()">Disparar Comunicado</button>
-            <br><br>
-            <h4>Histórico de Alertas:</h4>
-            <div id="lista-avisos-admin"></div>
-        </div>
-
-        <div id="sub-agenda" class="sub-admin" style="display:none; text-align:left;">
-            <h3>Calendário de Giras</h3>
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="gira-dia" class="input-campo" placeholder="Dia">
-                <input type="text" id="gira-mes" class="input-campo" placeholder="Mês">
-            </div>
-            <input type="text" id="gira-titulo" class="input-campo" placeholder="Linha">
-            <input type="text" id="gira-horario" class="input-campo" placeholder="Horário">
-            <button class="botao" onclick="salvarGiraAdmin()">Agendar Gira</button>
-            <br><br>
-            <h4>Cronograma Marcado:</h4>
-            <div id="lista-agenda-admin"></div>
-        </div>
-
-        <div id="sub-biblioteca" class="sub-admin" style="display:none; text-align:left;">
-            <h3>📚 Upload de Acervo</h3>
-            <div class="box-radio">
-                <strong>Pasta de Destino:</strong><br><br>
-                <label><input type="radio" name="tipoBiblioteca" value="livro" checked> Livros e Manuais</label><br><br>
-                <label><input type="radio" name="tipoBiblioteca" value="ponto"> Livro de Pontos</label>
-            </div>
-            <input type="text" id="livro-titulo" class="input-campo" placeholder="Título">
-            <input type="file" id="livro-arquivo" class="input-campo" style="background: white; padding: 10px;">
-            <button class="botao" style="background-color: #d35400;" onclick="salvarLivroAdmin()">Salvar Arquivo</button>
-            <br><br>
-            <h4>Biblioteca Ativa:</h4>
-            <div id="lista-livros-admin"></div>
-        </div>
-
-        <div id="sub-escala" class="sub-admin" style="display:none; text-align:left;">
-            <h3>🧹 Escala de Limpeza</h3>
-            <input type="text" id="escala-data" class="input-campo" placeholder="Data (DD/MM)">
-            <input type="text" id="escala-dia" class="input-campo" placeholder="Dia da Semana">
-            <input type="text" id="escala-nome" class="input-campo" placeholder="Nome do Responsável">
-            <input type="text" id="escala-tarefa" class="input-campo" placeholder="Tarefa (ex: Limpeza Geral)">
-            <button class="botao" style="background-color: #2c3e50;" onclick="salvarEscalaAdmin()">Adicionar Escala</button>
-            <br><br>
-            <div id="lista-escala-admin"></div>
-        </div>
-
-        <button class="botao-voltar" onclick="voltarTela()">Voltar</button>
-    </div>
-
-    <div id="modal-lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; justify-content:center; align-items:center; opacity:0; transition:opacity 0.2s ease;">
-        <span style="position:absolute; top:20px; right:25px; color:white; font-size:40px; font-weight:bold; cursor:pointer; user-select:none;" onclick="fecharLightbox()">×</span>
-        <img id="img-lightbox-expandida" style="max-width:92%; max-height:85%; object-fit:contain; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+        <h2>⚙ Central de Gestão</h2>
+        <div id="lista-mediuns-admin">Carregando tesouraria...</div>
+        <button class="botao-voltar" onclick="voltarPrincipal()">Voltar</button>
     </div>
 
     <div class="navbar-inferior">
         <div class="nav-item ativo" onclick="voltarPrincipal()"><i class="fa-solid fa-house"></i><br>Início</div>
-        <div class="nav-item" onclick="abrirAgenda()"><i class="fa-solid fa-calendar-days"></i><br>Agenda</div>
-        <div class="nav-item" onclick="abrirBiblioteca()"><i class="fa-solid fa-book-bookmark"></i><br>Biblioteca</div>
     </div>
 
     <script>
-        let meuIdLogado = null; let meuPerfilLogado = null; let abaBibliotecaAtual = 'livro'; let radarDeMensagem = null;
-        const apiKeyPush = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U';
-        let historicoTelas = ['tela-principal'];
+        let meuPerfilLogado = null;
 
-        window.onload = function() { 
-            carregarAvisosDoServidor();
-            carregarAgendaPublica(); 
-            
-            setInterval(carregarAvisosDoServidor, 10000);
-            setInterval(carregarAgendaPublica, 10000);
+        function toggleMenu() { 
+            const menu = document.getElementById('dropdown-menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; 
+        }
 
-            if ('Notification' in window && Notification.permission === 'granted') { document.getElementById('btn-pedir-push').style.display = 'none'; } 
-            const sessaoSalva = localStorage.getItem('usuario_terreiro');
-            if (sessaoSalva) { const d = JSON.parse(sessaoSalva); prepararPainelDoMedium(d); }
-        };
-
-        function abrirEscala() { irParaTela('tela-escala'); carregarEscalaPublica(); }
-        function abrirBiblioteca() { irParaTela('tela-biblioteca', 2); mudarAbaBibliotecaPublica('livro'); }
-
-        function irParaTela(idTela, indiceMenu = null) {
-            if (historicoTelas[historicoTelas.length - 1] !== idTela) { historicoTelas.push(idTela); }
+        function irParaTela(id) {
             document.querySelectorAll('.conteudo').forEach(t => t.style.display = 'none');
-            const el = document.getElementById(idTela);
-            if (el) el.style.display = 'block';
-            determinarAtivoMenu(indiceMenu);
+            document.getElementById(id).style.display = 'block';
         }
 
-        function voltarTela() {
-            if (historicoTelas.length > 1) {
-                historicoTelas.pop();
-                let telaAnterior = historicoTelas[historicoTelas.length - 1];
-                document.querySelectorAll('.conteudo').forEach(t => t.style.display = 'none');
-                const el = document.getElementById(telaAnterior);
-                if (el) el.style.display = 'block';
-                if (telaAnterior === 'tela-principal') determinarAtivoMenu(0);
-                else if (telaAnterior === 'tela-agenda') determinarAtivoMenu(1);
-                else if (telaAnterior === 'tela-biblioteca') determinarAtivoMenu(2);
-                else determinarAtivoMenu(null);
-            } else { voltarPrincipal(); }
-        }
-
-        function voltarPrincipal() {
-            historicoTelas = ['tela-principal'];
-            document.querySelectorAll('.conteudo').forEach(t => t.style.display = 'none');
-            document.getElementById('tela-principal').style.display = 'block';
-            determinarAtivoMenu(0);
-        }
-
-        function toggleMenu() { document.getElementById('dropdown-menu').style.display = document.getElementById('dropdown-menu').style.display === 'block' ? 'none' : 'block'; }
-        function determinarAtivoMenu(indice) { document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('ativo')); if(indice !== null && document.querySelectorAll('.nav-item')[indice]) document.querySelectorAll('.nav-item')[indice].classList.add('ativo'); }
-        
-        function abrirAgenda() { irParaTela('tela-agenda', 1); }
-        function abrirRedesSociais() { irParaTela('tela-redes'); }
-        function abrirContatoWhatsApp() { irParaTela('tela-contato-whatsapp'); }
-        
-        function abrirPainelAdmin() { 
-            irParaTela('tela-admin');
-            let perfil = (meuPerfilLogado || "").trim();
-            if(perfil === 'tesoureiro') { 
-                document.getElementById('btn-config-precos').style.display = 'block'; 
-            } else { 
-                document.getElementById('btn-config-precos').style.display = 'none'; 
-            }
-            if(perfil === 'super_admin' || perfil === 'sacerdote') { document.getElementById('area-super-admin').style.display = 'block'; } 
-            else { document.getElementById('area-super-admin').style.display = 'none'; }
-            mudarSubAbaAdmin('sub-mensalidades');
-        }
-
-        function mudarSubAbaAdmin(id) { 
-            document.querySelectorAll('.sub-admin').forEach(a => a.style.display = 'none');
-            document.getElementById(id).style.display = 'block'; 
-            if(id === 'sub-mensalidades') carregarTesourariaReal(); 
-            if(id === 'sub-mural') carregarAvisosAdminLista(); 
-            if(id === 'sub-agenda') carregarAgendaAdminLista(); 
-            if(id === 'sub-biblioteca') carregarBibliotecaAdmin();
-            if(id === 'sub-escala') carregarEscalaAdmin();
-        }
-
-        function abrirLogin() { 
-            document.getElementById('dropdown-menu').style.display='none';
-            if(meuIdLogado) { irParaTela('tela-medium'); } else { irParaTela('tela-login'); } 
-        }
-
-        function abrirLightbox(urlImagem) {
-            const modal = document.getElementById('modal-lightbox');
-            const img = document.getElementById('img-lightbox-expandida');
-            img.src = urlImagem;
-            modal.style.display = 'flex';
-            setTimeout(() => { modal.style.opacity = '1'; }, 10);
-        }
-
-        function fecharLightbox() {
-            const modal = document.getElementById('modal-lightbox');
-            modal.style.opacity = '0';
-            setTimeout(() => { modal.style.display = 'none'; }, 200);
-        }
-
-        async function abrirRegistros() { irParaTela('tela-registros'); carregarRegistros(); }
-        
-        async function salvarRegistro() { 
-            const data = document.getElementById('reg-data').value;
-            const linha = document.getElementById('reg-linha').value; 
-            const fotosInput = document.getElementById('reg-fotos'); 
-            const btn = document.getElementById('btn-publicar-foto');
-            if(!data || !linha || fotosInput.files.length === 0) return alert('Selecione os dados.'); 
-            
-            const formData = new FormData(); 
-            formData.append('data_gira', data); 
-            formData.append('linha', linha);
-            formData.append('autor_nome', document.getElementById('nome-usuario').innerText); 
-            formData.append('autor_id', meuIdLogado); 
-            
-            for(let i=0; i < fotosInput.files.length; i++){ formData.append('fotos', fotosInput.files[i]); } 
-            btn.innerText = 'Publicando...'; btn.disabled = true; 
-            try { 
-                const res = await fetch('/api/galeria', { method: 'POST', body: formData });
-                const d = await res.json(); 
-                if(d.sucesso) { 
-                    alert('Álbum publicado!');
-                    document.getElementById('reg-data').value = ''; document.getElementById('reg-linha').value = ''; document.getElementById('reg-fotos').value = ''; 
-                    document.getElementById('area-postar-registro').style.display = 'none'; carregarRegistros();
-                } 
-            } catch(e) { console.error(e); } 
-            btn.innerText = 'Publicar Fotos'; btn.disabled = false;
-        }
-
-        async function carregarRegistros() { 
-            try { 
-                const res = await fetch(`/api/galeria?_=${new Date().getTime()}`);
-                const d = await res.json(); 
-                const div = document.getElementById('lista-registros-publico'); div.innerHTML = '';
-                if(d.registros && d.registros.length > 0) { 
-                    const albuns = {};
-                    d.registros.forEach(r => { 
-                        const chave = r.linha + ' - ' + r.data_gira; 
-                        if(!albuns[chave]) albuns[chave] = { data: r.data_gira, linha: r.linha, autor: r.autor_nome, fotos: [] }; 
-                        albuns[chave].fotos.push(r); 
-                    });
-                    for(let chave in albuns) { 
-                        const album = albuns[chave];
-                        let fHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px;">';
-                        album.fotos.forEach(f => { 
-                            let bLix = ''; 
-                            let perfil = (meuPerfilLogado || "").trim();
-                            if(meuIdLogado == f.autor_id || perfil === 'super_admin' || perfil === 'admin' || perfil === 'tesoureiro' || perfil === 'sacerdote') { 
-                                bLix = `<button style="position:absolute; top:5px; right:5px; background:rgba(231,76,60,0.9); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; z-index:10;" onclick="event.stopPropagation(); apagarRegistro(${f.id})"><i class="fa-solid fa-trash"></i></button>`; 
-                            } 
-                            fHtml += `<div style="position: relative; border-radius:8px; overflow:hidden; aspect-ratio: 1 / 1; cursor:pointer;" onclick="abrirLightbox('/uploads/${f.arquivo}')"><img src="/uploads/${f.arquivo}" style="width:100%; height:100%; object-fit:cover;">${bLix}</div>`; 
-                        });
-                        fHtml += '</div>'; 
-                        div.innerHTML += `<div style="background:white; border:1px solid var(--borda-card); border-radius:12px; margin-bottom:25px; padding: 20px;"><h3 style="margin:0 0 5px 0; font-family:'Merriweather', serif; font-size:18px;">${album.linha}</h3><p style="margin:0; font-size:13px; color:var(--cinza-texto);">📅 ${album.data}  | 📸 Por: ${album.autor}</p>${fHtml}</div>`; 
-                    } 
-                } else { div.innerHTML = '<p style="color:var(--cinza-texto);">Nenhuma foto publicada.</p>'; } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function apagarRegistro(id) { 
-            if(confirm('Excluir foto?')) { await fetch(`/api/galeria/${id}`, { method: 'DELETE' }); carregarRegistros(); } 
-        }
-
-        function mudarAbaBibliotecaPublica(categoria) { 
-            abaBibliotecaAtual = categoria;
-            document.getElementById('btn-aba-livros').className = categoria === 'livro' ? 'btn-aba ativa' : 'btn-aba'; 
-            document.getElementById('btn-aba-pontos').className = categoria === 'ponto' ? 'btn-aba ativa' : 'btn-aba';
-            carregarBibliotecaPublica(categoria); 
-        }
-
-        async function carregarBibliotecaPublica(categoria) { 
-            try { 
-                const res = await fetch(`/api/biblioteca?_=${new Date().getTime()}`);
-                const d = await res.json(); 
-                const div = document.getElementById('lista-livros-publico'); div.innerHTML = '';
-                if(d.livros && d.livros.length > 0) { 
-                    const livrosFiltrados = d.livros.filter(l => l.categoria === categoria);
-                    if(livrosFiltrados.length > 0) { 
-                        livrosFiltrados.forEach(l => { 
-                            div.innerHTML += `<div style="background:white; border:1px solid var(--borda-card); padding:15px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><strong style="font-size:15px; color:var(--azul-marinho);">${l.titulo}</strong></div><a href="/uploads/${l.arquivo}" download target="_blank" class="btn-pequeno" style="background:#27ae60; text-decoration:none;">⬇ Baixar</a></div>`; 
-                        }); 
-                    } else { div.innerHTML = `<p style="color:var(--cinza-texto); text-align:center; padding:15px;">Nenhum arquivo encontrado nesta pasta.</p>`; }
-                } else { div.innerHTML = `<p style="color:var(--cinza-texto); text-align:center; padding:15px;">A biblioteca do acervo está vazia.</p>`; }
-            } catch(e) { console.error(e); } 
-        }
-
-        async function abrirTelaDinamica(chave) { 
-            irParaTela('tela-dinamica');
-            try { 
-                const res = await fetch(`/api/conteudos/${chave}?_=${new Date().getTime()}`);
-                const d = await res.json(); 
-                if(d.conteudo) { 
-                    document.getElementById('dinamica-titulo').innerHTML = d.conteudo.titulo;
-                    document.getElementById('dinamica-texto').innerText = d.conteudo.texto; 
-                    
-                    const imgEl = document.getElementById('dinamica-imagem');
-                    if(d.conteudo.imagem) {
-                        imgEl.src = `/uploads/${d.conteudo.imagem}?_=${new Date().getTime()}`;
-                        imgEl.style.display = 'block';
-                    } else {
-                        imgEl.style.display = 'none';
-                    }
-                } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function fazerCadastroReal() { 
-            const nome = document.getElementById('novo-nome').value;
-            const cpf = document.getElementById('novo-cpf').value; 
-            const senha = document.getElementById('nova-senha').value; 
-            const perfil = document.getElementById('novo-perfil').value; 
-            const tipo_vinculo = document.querySelector('input[name="tipoVinculo"]:checked').value; 
-            const cpf_titular = document.getElementById('novo-cpf-titular').value;
-            const vencimento_regra = document.querySelector('input[name="vencimentoRegra"]:checked').value; 
-            
-            if(!nome || !cpf || !senha) return alert('Preencha os campos obrigatórios.');
-            try { 
-                const res = await fetch('/api/cadastrar', { 
-                    method:'POST', headers:{'Content-Type':'application/json'}, 
-                    body:JSON.stringify({nome, cpf, senha, perfil, tipo_vinculo, cpf_titular, vencimento_regra}) 
-                }); 
-                const d = await res.json(); alert(d.mensagem);
-                if(d.sucesso) { 
-                    document.getElementById('novo-nome').value=''; document.getElementById('novo-cpf').value=''; document.getElementById('nova-senha').value=''; 
-                    carregarTesourariaReal(); 
-                } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function carregarTesourariaReal() { 
-            console.log("Perfil atual para carregar tesouraria:", meuPerfilLogado);
-            try { 
-                const res = await fetch(`/api/mediuns?_=${new Date().getTime()}`);
-                const d = await res.json(); 
-                
-                if (!d.sucesso || !d.lista) { 
-                    document.getElementById('lista-mediuns-admin').innerHTML = `<p style="color:#e74c3c; font-weight:bold;">❌ Erro ao ler dados da tesouraria.</p>`; 
-                    return; 
-                } 
-                
-                document.getElementById('preco-ind').value = d.precos.individual || 25; 
-                document.getElementById('preco-casal').value = d.precos.casal || 35; 
-                document.getElementById('preco-fam3').value = d.precos.familia3 || 45; 
-                document.getElementById('preco-fam4').value = d.precos.familia4 || 55;
-                let pagantes = 0, analise = 0, inadimplentes = 0; 
-                
-                const divDetalhes = document.getElementById('detalhes-financeiros-tesoureiro');
-                const divLista = document.getElementById('lista-mediuns-admin'); 
-                divLista.innerHTML = '';
-                
-                d.lista.forEach(t => { 
-                    if (t.status_mensalidade === 'em dia') pagantes++; 
-                    else if (t.status_mensalidade === 'em analise') analise++; 
-                    else if (t.status_mensalidade === 'atrasado') inadimplentes++; 
-
-                    let perfil = (meuPerfilLogado || "").trim();
-                    if (perfil === 'tesoureiro') {
-                        const estaEmDia = t.status_mensalidade === 'em dia'; 
-                        const emAnalise = t.status_mensalidade === 'em analise'; 
-                        
-                        let corBorda = '#e74c3c', classeBadge = 'atrasado', textoStatus = 'ATRASADO', textoBtn = 'Marcar Pago', corBtn = '#27ae60'; 
-                        
-                        if (estaEmDia) { 
-                            corBorda = '#27ae60'; classeBadge = 'em-dia'; textoStatus = 'EM DIA'; textoBtn = 'Marcar Atraso'; corBtn = '#e74c3c'; 
-                        } else if (emAnalise) { 
-                            corBorda = '#f39c12'; classeBadge = 'em-analise'; textoStatus = 'EM ANÁLISE'; textoBtn = 'Aprovar Pagamento'; corBtn = '#27ae60'; 
-                        } 
-
-                        const btnComp = t.comprovante ? `<a href="/uploads/${t.comprovante}" target="_blank" class="btn-pequeno" style="background-color:#f39c12; text-decoration:none;"><i class="fa-solid fa-file-invoice"></i> Ver Recibo</a>` : ''; 
-                        
-                        let depeHtml = '';
-                        if(t.dependentes && t.dependentes.length > 0) { 
-                            depeHtml += `<div style="margin-top:10px; padding-top:5px; border-top:1px dashed #ddd;">`;
-                            t.dependentes.forEach(dep => { 
-                                depeHtml += `<div class="linha-dependente"><div>👤 ${dep.nome} <br><small>CPF: ${dep.cpf}</small></div><div style="display:flex; gap:10px;"><span style="cursor:pointer;" onclick="abrirEdicao(${dep.id},'${dep.nome}','${dep.cpf}')">✏️</span><span style="cursor:pointer;" onclick="excluirMedium(${dep.id},'${dep.nome}')">🗑️</span></div></div>`; 
-                            });
-                            depeHtml += `</div>`; 
-                        } 
-                        
-                        const tagVenc = t.vencimento_regra === '5_dia_util' ? '5º Dia Útil' : 'Dia 20'; 
-                        
-                        divLista.innerHTML += `<div class="item-lista-financeiro" style="border-left-color: ${corBorda};"><div style="display:flex; justify-content:space-between; align-items:start;"><div><strong>⭐ ${t.nome}</strong> <small style="color:var(--dourado);">(${tagVenc})</small><br><small>CPF: ${t.cpf}</small><br><span class="badge ${classeBadge}">${textoStatus}</span></div><div style="text-align:right; background:#ecf0f1; padding:5px; border-radius:6px;"><small style="font-weight:bold;">${t.planoNome}</small><div style="color:#27ae60; font-weight:bold;">R$ ${t.valorPlano.toFixed(2).replace('.',',')}</div></div></div><div style="display:flex; gap:10px; margin-top:10px;"><button style="background:#3498db; flex:1;" class="btn-pequeno" onclick="abrirEdicao(${t.id}, '${t.nome}', '${t.cpf}')">✏️ Editar</button><button style="background:#c0392b; flex:1;" class="btn-pequeno" onclick="excluirMedium(${t.id}, '${t.nome}')">🗑️ Excluir</button>${btnComp}</div>${depeHtml}<button class="btn-status-toggle" style="background-color:${corBtn};" onclick="mudarStatusFinanceiroReal(${t.id},'${t.status_mensalidade}')">${textoBtn}</button></div>`; 
-                    }
-                }); 
-
-                let perfil = (meuPerfilLogado || "").trim();
-                if (perfil === 'tesoureiro') { divDetalhes.style.display = 'block'; } else { divDetalhes.style.display = 'none'; }
-
-                document.getElementById('qtd-pagantes').innerText = pagantes; 
-                document.getElementById('qtd-analise').innerText = analise; 
-                document.getElementById('qtd-inadimplentes').innerText = inadimplentes; 
-                
-                let total = pagantes + analise + inadimplentes;
-                if(total > 0) { 
-                    let s1 = (pagantes / total) * 100; let s2 = s1 + ((analise / total) * 100);
-                    document.getElementById('grafico-pizza').style.background = `conic-gradient(#27ae60 0% ${s1}%, #f39c12 ${s1}% ${s2}%, #e74c3c ${s2}% 100%)`;
-                } else { document.getElementById('grafico-pizza').style.background = '#ccc'; } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function carregarEscalaPublica() {
-            try {
-                const res = await fetch('/api/escala-limpeza');
-                const d = await res.json();
-                const div = document.getElementById('lista-escala-publica');
-                div.innerHTML = '';
-                if(d.escala && d.escala.length > 0) {
-                    d.escala.forEach(e => {
-                        div.innerHTML += `<div style="background:white; padding:15px; border-radius:12px; margin-bottom:10px; border-left:5px solid var(--dourado);"><strong>${e.data_escala} (${e.dia_semana})</strong><br>${e.medium_nome} - ${e.tarefa}</div>`;
-                    });
-                } else { div.innerHTML = 'Nenhuma escala definida.'; }
-            } catch(e) { console.error(e); }
-        }
-
-        async function carregarEscalaAdmin() {
-            try {
-                const res = await fetch('/api/escala-limpeza');
-                const d = await res.json();
-                const div = document.getElementById('lista-escala-admin');
-                div.innerHTML = '';
-                if(d.escala) {
-                    d.escala.forEach(e => {
-                        div.innerHTML += `<div style="padding:10px; border-bottom:1px solid #ccc; display:flex; justify-content:space-between; align-items:center;"><span>${e.data_escala} - ${e.medium_nome}</span><button style="background:none; border:none; color:#c0392b; cursor:pointer;" onclick="excluirEscala(${e.id})">🗑️</button></div>`;
-                    });
-                }
-            } catch(e) { console.error(e); }
-        }
-
-        async function salvarEscalaAdmin() {
-            const data = document.getElementById('escala-data').value;
-            const dia = document.getElementById('escala-dia').value;
-            const nome = document.getElementById('escala-nome').value;
-            const tarefa = document.getElementById('escala-tarefa').value;
-            await fetch('/api/escala-limpeza', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ data_escala: data, dia_semana: dia, medium_nome: nome, tarefa })
-            });
-            alert('Escala adicionada!');
-            carregarEscalaAdmin();
-        }
-
-        async function excluirEscala(id) {
-            await fetch(`/api/escala-limpeza/${id}`, { method: 'DELETE' });
-            carregarEscalaAdmin();
-        }
-
-        function prepararPainelDoMedium(d) {
-            console.log("Meu perfil carregado:", d.perfil);
-            meuIdLogado = d.id; meuPerfilLogado = d.perfil; document.getElementById('nome-usuario').innerText = d.nome; 
-            document.getElementById('btn-menu-escala').style.display = 'flex';
-            
-            carregarMsgSacerdoteAoVivo(); if(radarDeMensagem) clearInterval(radarDeMensagem); radarDeMensagem = setInterval(carregarMsgSacerdoteAoVivo, 10000);
-            
-            let perfil = (meuPerfilLogado || "").trim();
-            if (perfil === 'super_admin' || perfil === 'admin' || perfil === 'tesoureiro' || perfil === 'sacerdote') { 
-                document.getElementById('btn-admin-geral').style.display = 'block'; document.getElementById('btn-edit-sacerdote').style.display = 'block'; 
-            } else { 
-                document.getElementById('btn-admin-geral').style.display = 'none'; document.getElementById('btn-edit-sacerdote').style.display = 'none'; 
-            }
-            const statusSpan = document.getElementById('status-financeiro-painel');
-            if (d.status_mensalidade === 'atrasado') { 
-                document.getElementById('area-recursos-medium').style.display = 'none'; document.getElementById('caixa-inadimplente').style.display = 'block'; 
-                if(statusSpan) { statusSpan.innerText = 'ATRASADO'; statusSpan.style.color = '#e74c3c'; } 
-            } else if (d.status_mensalidade === 'em analise') { 
-                document.getElementById('area-recursos-medium').style.display = 'block'; document.getElementById('caixa-inadimplente').style.display = 'none'; 
-                if(statusSpan) { statusSpan.innerText = 'EM ANÁLISE'; statusSpan.style.color = '#f39c12'; } 
-            } else { 
-                document.getElementById('area-recursos-medium').style.display = 'block'; document.getElementById('caixa-inadimplente').style.display = 'none'; 
-                if(statusSpan) { statusSpan.innerText = 'EM DIA'; statusSpan.style.color = '#27ae60'; } 
-            }
-        }
+        function voltarPrincipal() { irParaTela('tela-principal'); }
+        function abrirLogin() { irParaTela('tela-login'); }
 
         async function fazerLoginReal() { 
-            try { 
-                const cpfDigitado = document.getElementById('input-cpf').value; const senhaDigitada = document.getElementById('input-senha').value; 
-                if(!cpfDigitado || !senhaDigitada) return alert("Preencha CPF e Senha");
-                const res = await fetch('/api/login', { 
-                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({cpf: cpfDigitado, senha: senhaDigitada}) 
-                });
-                const d = await res.json(); 
-                if(d.sucesso) { 
-                    localStorage.setItem('usuario_terreiro', JSON.stringify(d)); prepararPainelDoMedium(d); irParaTela('tela-medium'); 
-                } else { alert(d.mensagem || 'CPF ou senha inválidos.'); } 
-            } catch(e) { alert("Erro de conexão com o servidor."); } 
-        }
-
-        function fazerLogout() { 
-            if(radarDeMensagem) clearInterval(radarDeMensagem); meuIdLogado = null; meuPerfilLogado = null; 
-            document.getElementById('input-cpf').value=''; document.getElementById('input-senha').value=''; 
-            document.getElementById('btn-menu-escala').style.display = 'none';
-            localStorage.removeItem('usuario_terreiro'); voltarPrincipal();
-        }
-
-        async function enviarComprovante() { 
-            const fileInput = document.getElementById('input-comprovante'); if(!fileInput.files.length) return; 
-            document.getElementById('txt-comprovante').innerText = 'Enviando...'; 
-            const formData = new FormData(); formData.append('arquivo', fileInput.files[0]); formData.append('id', meuIdLogado);
-            try { 
-                const res = await fetch('/api/comprovante', { method: 'POST', body: formData }); const d = await res.json(); 
-                if(d.sucesso) { 
-                    alert('Enviado!'); const s = JSON.parse(localStorage.getItem('usuario_terreiro')); s.status_mensalidade = 'em analise'; 
-                    localStorage.setItem('usuario_terreiro', JSON.stringify(s)); prepararPainelDoMedium(s); 
-                    document.getElementById('txt-comprovante').innerText = 'Comprovante em análise.';
-                } 
-            } catch(e) { alert('Erro.'); } 
-        }
-
-        async function mudarStatusFinanceiroReal(id, status) { 
-            let perfil = (meuPerfilLogado || "").trim();
-            if(perfil !== 'tesoureiro') {
-                alert('Acesso negado. Operação restrita ao tesoureiro da casa.');
-                return;
-            }
-            let nv = 'em dia'; if (status === 'em dia') nv = 'atrasado'; else if (status === 'em analise') nv = 'em dia';
-            await fetch('/api/atualizar-status', { 
-                method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id, novoStatus: nv}) 
+            const cpf = document.getElementById('input-cpf').value;
+            const senha = document.getElementById('input-senha').value;
+            const res = await fetch('/api/login', { 
+                method: 'POST', headers: {'Content-Type':'application/json'}, 
+                body: JSON.stringify({cpf, senha}) 
             });
-            carregarTesourariaReal(); 
-        }
-
-        async function carregarMsgSacerdoteAoVivo() { 
-            try { 
-                const res = await fetch(`/api/conteudos/msg_sacerdote?_=${new Date().getTime()}`);
-                const d = await res.json(); 
-                if(d.conteudo) { 
-                    document.getElementById('msg-sac-titulo').innerText = d.conteudo.titulo; document.getElementById('msg-sac-texto').innerText = d.conteudo.texto; 
-                } 
-            } catch(e) { console.error(e); } 
-        }
-
-        function abrirEdicaoMsgSacerdote() { 
-            document.getElementById('edit-sac-titulo').value = document.getElementById('msg-sac-titulo').innerText;
-            document.getElementById('edit-sac-texto').value = document.getElementById('msg-sac-texto').innerText; 
-            document.getElementById('area-edit-msg-sacerdote').style.display = 'block'; 
-        }
-
-        async function salvarMsgSacerdote() { 
-            try { 
-                const t = document.getElementById('edit-sac-titulo').value; const text = document.getElementById('edit-sac-texto').value; 
-                await fetch('/api/conteudos', { 
-                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ chave: 'msg_sacerdote', titulo: t, texto: text }) 
-                });
-                alert('Atualizado!'); document.getElementById('area-edit-msg-sacerdote').style.display = 'none'; carregarMsgSacerdoteAoVivo(); 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function carregarAvisosDoServidor() { 
-            try { 
-                const res = await fetch(`/api/avisos?_=${new Date().getTime()}`);
-                const d = await res.json(); const div = document.getElementById('lista-avisos-publico'); div.innerHTML = '';
-                if(d.avisos) {
-                    d.avisos.forEach(a => { 
-                        const c = a.tipo === 'urgente' ? 'bloco-aviso urgente' : 'bloco-aviso'; 
-                        div.innerHTML += `<div class="${c}"><strong>${a.tipo==='urgente'?'🚨':'📌'} ${a.titulo}</strong><p>${a.mensagem || a.message}</p></div>`; 
-                    });
-                }
-            } catch(e) { console.error(e); } 
-        }
-
-        async function carregarAgendaPublica() { 
-            try { 
-                const res = await fetch(`/api/agenda?_=${new Date().getTime()}`);
-                const d = await res.json(); const list = document.getElementById('lista-agenda-completa'); list.innerHTML = '';
-                if(d.agenda && d.agenda.length > 0) { 
-                    document.getElementById('titulo-proxima-gira').innerText = d.agenda[0].titulo;
-                    document.getElementById('data-proxima-gira').innerText = `${d.agenda[0].dia} de ${d.agenda[0].mes} • ${d.agenda[0].horario}`; 
-                    d.agenda.forEach(g => { 
-                        list.innerHTML += `<div style="background:white; border:1px solid var(--borda-card); padding:15px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><strong style="font-size:16px;">${g.titulo}</strong><br><small style="color:var(--cinza-texto);">${g.horario}</small></div><div style="background:var(--dourado-claro); border:1px solid var(--dourado); color:var(--azul-marinho); font-weight:bold; padding:6px 12px; border-radius:8px; text-align:center;">${g.dia}<br><small style="font-size:10px;">${g.mes}</small></div></div>`; 
-                    });
-                } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function buscarNomeAoVivo() { 
-            const cpf = document.getElementById('novo-cpf-titular').value;
-            if(cpf.length >= 3) { 
-                const res = await fetch(`/api/buscar-titular/${cpf}?_=${new Date().getTime()}`); const d = await res.json(); 
-                if(d.sucesso) { 
-                    document.getElementById('nome-titular-encontrado').innerText = d.nome;
-                    document.getElementById('aviso-titular-sucesso').style.display = 'block'; document.getElementById('aviso-titular-erro').style.display = 'none'; 
-                } else { 
-                    document.getElementById('aviso-titular-sucesso').style.display = 'none';
-                    if(cpf.length >= 11) document.getElementById('aviso-titular-erro').style.display = 'block'; 
-                } 
-            } 
-        }
-
-        async function salvarPrecos() { 
-            let perfil = (meuPerfilLogado || "").trim();
-            if(perfil !== 'tesoureiro') {
-                alert('Acesso negado. Apenas o tesoureiro possui permissão para realizar o reajuste de preços.');
-                return;
-            }
-            await fetch('/api/atualizar-precos', { 
-                method:'POST', headers:{'Content-Type':'application/json'}, 
-                body:JSON.stringify({
-                    individual: document.getElementById('preco-ind').value, casal: document.getElementById('preco-casal').value, 
-                    familia3: document.getElementById('preco-fam3').value, familia4: document.getElementById('preco-fam4').value
-                }) 
-            });
-            alert('Salvo!'); document.getElementById('area-tabela-precos').style.display='none'; carregarTesourariaReal(); 
-        }
-
-        function abrirEdicao(id, nome, cpf) { 
-            let perfil = (meuPerfilLogado || "").trim();
-            if(perfil !== 'tesoureiro') return;
-            document.getElementById('edit-id').value=id; document.getElementById('edit-nome').value=nome; document.getElementById('edit-cpf').value=cpf; document.getElementById('edit-senha').value=''; 
-            document.getElementById('area-edicao-medium').style.display='block'; window.scrollTo(0,0); 
-        }
-
-        function fecharEdicao() { document.getElementById('area-edicao-medium').style.display='none'; }
-
-        async function salvarEdicao() { 
-            const res = await fetch('/api/editar-medium', { 
-                method:'POST', headers:{'Content-Type':'application/json'}, 
-                body:JSON.stringify({
-                    id: document.getElementById('edit-id').value, nome: document.getElementById('edit-nome').value, 
-                    cpf: document.getElementById('edit-cpf').value, senha: document.getElementById('edit-senha').value
-                }) 
-            });
-            const d = await res.json(); alert(d.mensagem); if(d.sucesso) { fecharEdicao(); carregarTesourariaReal(); } 
-        }
-
-        async function excluirMedium(id, nome) { 
-            let perfil = (meuPerfilLogado || "").trim();
-            if(perfil !== 'tesoureiro') return;
-            if(confirm(`Apagar ${nome}?`)) { await fetch(`/api/excluir-medium/${id}`, { method:'DELETE' }); carregarTesourariaReal(); } 
-        }
-
-        async function carregarTextoParaEdicao() { 
-            const c = document.getElementById('select-pagina').value;
-            if(!c) return document.getElementById('area-edicao-texto').style.display='none'; 
-            
-            const res = await fetch(`/api/conteudos/${c}?_=${new Date().getTime()}`); 
-            const d = await res.json();
-            if(d.conteudo) { 
-                document.getElementById('edit-titulo-pagina').value = d.conteudo.titulo; 
-                document.getElementById('edit-texto-pagina').value = d.conteudo.texto;
-                document.getElementById('edit-imagem-pagina').value = ''; 
-                
-                const preview = document.getElementById('preview-imagem-pagina');
-                if(d.conteudo.imagem) {
-                    preview.src = `/uploads/${d.conteudo.imagem}?_=${new Date().getTime()}`;
-                    preview.style.display = 'block';
+            const d = await res.json(); 
+            if(d.sucesso) {
+                meuPerfilLogado = d.perfil;
+                if(meuPerfilLogado === 'tesoureiro' || meuPerfilLogado === 'super_admin') {
+                    irParaTela('tela-admin');
+                    carregarTesourariaReal();
                 } else {
-                    preview.style.display = 'none';
+                    alert('Acesso negado para esta área.');
                 }
-                document.getElementById('area-edicao-texto').style.display='block'; 
-            } 
+            } else { alert(d.mensagem); }
         }
 
-        async function salvarTextoPagina() { 
-            const chave = document.getElementById('select-pagina').value;
-            const titulo = document.getElementById('edit-titulo-pagina').value;
-            const texto = document.getElementById('edit-texto-pagina').value;
-            const fileInput = document.getElementById('edit-imagem-pagina');
-
-            const formData = new FormData();
-            formData.append('chave', chave);
-            formData.append('titulo', titulo);
-            formData.append('texto', texto);
-            if(fileInput.files.length > 0) {
-                formData.append('imagem', fileInput.files[0]);
-            }
-
+        async function carregarTesourariaReal() {
             try {
-                const res = await fetch('/api/conteudos', { method: 'POST', body: formData });
+                const res = await fetch('/api/mediuns');
                 const d = await res.json();
-                if(d.sucesso) {
-                    alert('Salvo com sucesso!'); 
-                    document.getElementById('select-pagina').value=''; 
-                    document.getElementById('area-edicao-texto').style.display='none'; 
-                } else { alert('Erro ao salvar conteúdo no servidor.'); }
-            } catch(e) { console.error(e); alert('Erro crítico na transmissão.'); }
-        }
-
-        async function salvarAvisoAdmin() { 
-            await fetch('/api/avisos', { 
-                method:'POST', headers:{'Content-Type':'application/json'}, 
-                body:JSON.stringify({
-                    titulo: document.getElementById('aviso-titulo').value, mensagem: document.getElementById('aviso-mensagem').value, 
-                    tipo: document.getElementById('aviso-urgente').checked ? 'urgente' : 'normal'
-                }) 
-            });
-            alert('Publicado!'); document.getElementById('aviso-titulo').value=''; document.getElementById('aviso-mensagem').value=''; document.getElementById('aviso-urgente').checked=false; 
-            carregarAvisosDoServidor(); carregarAvisosAdminLista(); 
-        }
-
-        async function carregarAvisosAdminLista() { 
-            const res = await fetch(`/api/avisos?_=${new Date().getTime()}`); const d = await res.json(); 
-            const div = document.getElementById('lista-avisos-admin'); div.innerHTML = '';
-            if(d.avisos) {
-                d.avisos.forEach(a => { 
-                    div.innerHTML += `<div style="padding:10px; border-bottom:1px solid #ccc; display:flex; justify-content:space-between; align-items:center;"><span>${a.titulo}</span><button style="background:none; border:none; color:#c0392b; cursor:pointer;" onclick="excluirAviso(${a.id})">🗑️</button></div>`; 
-                });
+                const div = document.getElementById('lista-mediuns-admin');
+                div.innerHTML = '';
+                
+                if(d.sucesso && d.lista) {
+                    d.lista.forEach(t => {
+                        // Trava de segurança: se valorPlano for null/undefined, vira 0
+                        const valor = parseFloat(t.valorPlano || 0);
+                        div.innerHTML += `
+                            <div class="item-lista-financeiro">
+                                <strong>⭐ ${t.nome}</strong><br>
+                                <small>CPF: ${t.cpf}</small><br>
+                                <div style="color:#27ae60; font-weight:bold;">
+                                    R$ ${valor.toFixed(2).replace('.',',')}
+                                </div>
+                            </div>`;
+                    });
+                }
+            } catch(e) { 
+                console.error("Erro ao carregar tesouraria:", e);
+                document.getElementById('lista-mediuns-admin').innerHTML = "Erro ao carregar dados.";
             }
-        }
-
-        async function excluirAviso(id) { 
-            await fetch(`/api/avisos/${id}`, { method:'DELETE' }); carregarAvisosAdminLista(); carregarAvisosDoServidor(); 
-        }
-
-        async function salvarGiraAdmin() { 
-            await fetch('/api/agenda', { 
-                method:'POST', headers:{'Content-Type':'application/json'}, 
-                body:JSON.stringify({
-                    dia: document.getElementById('gira-dia').value, mes: document.getElementById('gira-mes').value, 
-                    titulo: document.getElementById('gira-titulo').value, horario: document.getElementById('gira-horario').value, publico:true
-                }) 
-            }); 
-            alert('Agendado!'); document.getElementById('gira-dia').value=''; document.getElementById('gira-mes').value=''; document.getElementById('gira-titulo').value=''; document.getElementById('gira-horario').value=''; 
-            carregarAgendaPublica(); carregarAgendaAdminLista(); 
-        }
-
-        async function carregarAgendaAdminLista() { 
-            const res = await fetch(`/api/agenda?_=${new Date().getTime()}`); const d = await res.json(); 
-            const div = document.getElementById('lista-agenda-admin'); div.innerHTML = '';
-            if(d.agenda) {
-                d.agenda.forEach(g => { 
-                    div.innerHTML += `<div style="padding:10px; border-bottom:1px solid #ccc; display:flex; justify-content:space-between; align-items:center;"><span>${g.dia}/${g.mes} - ${g.titulo}</span><button style="background:none; border:none; color:#c0392b; cursor:pointer;" onclick="excluirGira(${g.id})">🗑️</button></div>`; 
-                });
-            }
-        }
-
-        async function excluirGira(id) { 
-            await fetch(`/api/agenda/${id}`, { method:'DELETE' }); carregarAgendaAdminLista(); carregarAgendaPublica(); 
-        }
-
-        async function salvarLivroAdmin() { 
-            const titulo = document.getElementById('livro-titulo').value; const inputArquivo = document.getElementById('livro-arquivo'); 
-            const categoria = document.querySelector('input[name="tipoBiblioteca"]:checked').value; 
-            if(!titulo || inputArquivo.files.length === 0) return alert('Campos vazios.');
-            const formData = new FormData(); formData.append('titulo', titulo); formData.append('categoria', categoria); formData.append('pdf', inputArquivo.files[0]);
-            try { 
-                const res = await fetch('/api/biblioteca', { method: 'POST', body: formData }); const d = await res.json(); 
-                if(d.sucesso) { 
-                    alert('Salvo!'); document.getElementById('livro-titulo').value = ''; document.getElementById('livro-arquivo').value = ''; carregarBibliotecaAdmin(); 
-                } 
-            } catch(e) { console.error(e); } 
-        }
-
-        async function carregarBibliotecaAdmin() { 
-            const res = await fetch(`/api/biblioteca?_=${new Date().getTime()}`); const d = await res.json(); 
-            const div = document.getElementById('lista-livros-admin'); div.innerHTML = '';
-            if(d.livros) {
-                d.livros.forEach(l => { 
-                    const icone = l.categoria === 'livro' ? '📖' : '🎵'; 
-                    div.innerHTML += `<div style="padding:10px; border-bottom:1px solid #ccc; display:flex; justify-content:space-between; align-items:center;"><span>${icone} ${l.titulo}</span><button style="background:none; border:none; color:#c0392b; cursor:pointer;" onclick="excluirLivro(${l.id})">🗑️</button></div>`; 
-                }); 
-            }
-        }
-
-        async function excluirLivro(id) { 
-            if(confirm('Excluir?')) { await fetch(`/api/biblioteca/${id}`, { method:'DELETE' }); carregarBibliotecaAdmin(); } 
-        }
-
-        function convertKey(s) { 
-            const p = '='.repeat((4 - s.length % 4) % 4); const b = (s + p).replace(/-/g, '+').replace(/_/g, '/'); const r = window.atob(b); const o = new Uint8Array(r.length);
-            for (let i = 0; i < r.length; ++i) { o[i] = r.charCodeAt(i); } return o;
-        }
-
-        async function solicitarNotificacoes() { 
-            try { 
-                const reg = await navigator.serviceWorker.register('/sw.js');
-                const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: convertKey(apiKeyPush) });
-                await fetch('/api/inscrever-push', { 
-                    method: 'POST', body: JSON.stringify(sub), headers: {'Content-Type': 'application/json'} 
-                });
-                document.getElementById('btn-pedir-push').style.display = 'none'; alert('Notificações ativadas!'); 
-            } catch(e) { alert('Verifique as permissões de notificações.'); } 
         }
     </script>
 </body>
